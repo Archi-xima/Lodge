@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.lodge.controller.CustomerController"
+            fitToWidth="true" hbarPolicy="NEVER" styleClass="customer-scroll">
+    <content>
+        <VBox spacing="18" styleClass="module-root">
+            <padding>
+                <Insets top="18" right="24" bottom="24" left="24"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="12" styleClass="top-header-bar">
+                <VBox spacing="2">
+                    <Label text="SkyRidge Lodge" styleClass="app-title-logo"/>
+                    <Label text="Customer reservations" styleClass="app-subtitle-logo"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="customerNameLabel" text="Welcome" styleClass="user-chip-name"/>
+                <Button text="Sign out" onAction="#handleSignOut" styleClass="btn-secondary"/>
+            </HBox>
+
+            <VBox spacing="3">
+                <Label text="Find your stay" styleClass="section-headline"/>
+                <Label text="Browse the lodge, choose your dates, and reserve a room yourself."
+                       styleClass="section-subheadline"/>
+            </VBox>
+
+            <VBox styleClass="card-panel" spacing="10">
+                <Label text="Explore our rooms" styleClass="table-section-title"/>
+                <FlowPane fx:id="roomGallery" hgap="14" vgap="14"/>
+            </VBox>
+
+            <VBox styleClass="card-panel" spacing="12">
+                <Label text="Make a reservation" styleClass="table-section-title"/>
+                <HBox spacing="14" alignment="BOTTOM_LEFT">
+                    <VBox spacing="6">
+                        <Label text="Check in" styleClass="form-field-label"/>
+                        <DatePicker fx:id="checkInPicker" prefWidth="180"/>
+                    </VBox>
+                    <VBox spacing="6">
+                        <Label text="Check out" styleClass="form-field-label"/>
+                        <DatePicker fx:id="checkOutPicker" prefWidth="180"/>
+                    </VBox>
+                    <VBox spacing="6" HBox.hgrow="ALWAYS">
+                        <Label text="Available room" styleClass="form-field-label"/>
+                        <ComboBox fx:id="roomCombo" maxWidth="Infinity"/>
+                    </VBox>
+                    <Button fx:id="bookRoomButton" text="Reserve this room" onAction="#handleReserve"
+                            styleClass="btn-primary"/>
+                </HBox>
+                <Label fx:id="estimateLabel" text="Choose dates to see available rooms and pricing."
+                       styleClass="muted-text" wrapText="true"/>
+                <Label fx:id="bookingMessageLabel" wrapText="true"/>
+            </VBox>
+
+            <VBox styleClass="card-panel" spacing="10">
+                <Label text="Your reservations" styleClass="table-section-title"/>
+                <TableView fx:id="bookingsTable" prefHeight="250">
+                    <columns>
+                        <TableColumn fx:id="colBookingId" text="Booking" prefWidth="110"/>
+                        <TableColumn fx:id="colRoom" text="Room" prefWidth="190"/>
+                        <TableColumn fx:id="colCheckIn" text="Check in" prefWidth="140"/>
+                        <TableColumn fx:id="colCheckOut" text="Check out" prefWidth="140"/>
+                        <TableColumn fx:id="colStatus" text="Status" prefWidth="140"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
+                </TableView>
+            </VBox>
+        </VBox>
+    </content>
+</ScrollPane>

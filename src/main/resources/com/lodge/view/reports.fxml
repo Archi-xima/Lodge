@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.ReportsController"
+      spacing="16" styleClass="module-root">
+    <padding>
+        <Insets top="18" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="14">
+        <VBox spacing="2" HBox.hgrow="ALWAYS">
+            <Label text="Management reports" styleClass="section-headline"/>
+            <Label text="Revenue, payment mix, occupancy and best selling extras."
+                   styleClass="section-subheadline"/>
+        </VBox>
+        <Label text="Month" styleClass="form-field-label"/>
+        <ComboBox fx:id="monthCombo" prefWidth="170" styleClass="modern-combo-box"/>
+    </HBox>
+
+    <!-- KPI row -->
+    <HBox spacing="14" styleClass="stats-row">
+        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="BILLED IN MONTH" styleClass="stat-label"/>
+            <Label fx:id="billedLabel" text="K 0.00" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card stat-card-green" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="COLLECTED IN MONTH" styleClass="stat-label"/>
+            <Label fx:id="collectedLabel" text="K 0.00" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card stat-card-amber" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="OUTSTANDING" styleClass="stat-label"/>
+            <Label fx:id="outstandingLabel" text="K 0.00" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="OCCUPANCY" styleClass="stat-label"/>
+            <Label fx:id="occupancyLabel" text="0%" styleClass="stat-value"/>
+        </VBox>
+        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="INVOICES RAISED" styleClass="stat-label"/>
+            <Label fx:id="invoicesLabel" text="0" styleClass="stat-value"/>
+        </VBox>
+    </HBox>
+
+    <!-- Charts -->
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card-panel" spacing="8" HBox.hgrow="ALWAYS">
+            <Label text="Revenue by room type" styleClass="table-section-title"/>
+            <BarChart fx:id="revenueChart" animated="true" VBox.vgrow="ALWAYS">
+                <xAxis><CategoryAxis label="Room type"/></xAxis>
+                <yAxis><NumberAxis label="Kwacha"/></yAxis>
+            </BarChart>
+        </VBox>
+        <VBox styleClass="card-panel" spacing="8" prefWidth="360" maxWidth="400">
+            <Label text="Payments by method" styleClass="table-section-title"/>
+            <PieChart fx:id="paymentsPie" animated="true" labelsVisible="true" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </HBox>
+
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card-panel" spacing="8" HBox.hgrow="ALWAYS">
+            <Label text="Billed vs. collected — last 6 months" styleClass="table-section-title"/>
+            <BarChart fx:id="trendChart" animated="true" VBox.vgrow="ALWAYS" barGap="0.3" categoryGap="0.6">
+                <xAxis><CategoryAxis label="Month"/></xAxis>
+                <yAxis><NumberAxis label="Kwacha"/></yAxis>
+            </BarChart>
+        </VBox>
+
+        <VBox styleClass="card-panel" spacing="8" prefWidth="420" maxWidth="460">
+            <Label text="Best selling extras" styleClass="table-section-title"/>
+            <TableView fx:id="servicesTable" styleClass="modern-table-view" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colServiceName" text="Service" prefWidth="170"/>
+                    <TableColumn fx:id="colServiceCategory" text="Category" prefWidth="110"/>
+                    <TableColumn fx:id="colServiceQty" text="Qty" prefWidth="60"/>
+                    <TableColumn fx:id="colServiceRevenue" text="Revenue" prefWidth="110"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </HBox>
+
+</VBox>

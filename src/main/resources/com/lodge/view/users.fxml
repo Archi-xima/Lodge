@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.UsersController"
+      spacing="16" styleClass="module-root">
+    <padding>
+        <Insets top="18" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <VBox spacing="2">
+        <Label text="Staff accounts" styleClass="section-headline"/>
+        <Label text="Create and review lodge staff accounts. Only the administrator can add users." styleClass="section-subheadline"/>
+    </VBox>
+
+    <HBox spacing="18" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card-panel" spacing="12" HBox.hgrow="ALWAYS">
+            <Label text="Current staff (customers are listed separately)" styleClass="table-section-title"/>
+            <TableView fx:id="usersTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colUsername" text="Username" prefWidth="140"/>
+                    <TableColumn fx:id="colName" text="Full name" prefWidth="220"/>
+                    <TableColumn fx:id="colRole" text="Role" prefWidth="160"/>
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+        <VBox styleClass="card-panel" spacing="12" prefWidth="340">
+            <Label text="Create account" styleClass="table-section-title"/>
+
+            <Label text="Full name" styleClass="form-field-label"/>
+            <TextField fx:id="fullNameField" promptText="e.g. Martha Ndlovu" styleClass="modern-text-field"/>
+
+            <Label text="Username" styleClass="form-field-label"/>
+            <TextField fx:id="usernameField" promptText="e.g. reception" styleClass="modern-text-field"/>
+
+            <Label text="Password" styleClass="form-field-label"/>
+            <PasswordField fx:id="passwordField" promptText="Minimum 8 characters" styleClass="modern-text-field"/>
+
+            <Label text="Role" styleClass="form-field-label"/>
+            <ComboBox fx:id="roleCombo" maxWidth="Infinity"/>
+
+            <Label fx:id="messageLabel" wrapText="true" styleClass="muted-text"/>
+
+            <Button fx:id="createAccountButton" text="Create account" maxWidth="Infinity"
+                    styleClass="btn-primary"/>
+        </VBox>
+    </HBox>
+
+    <VBox styleClass="card-panel" spacing="12" VBox.vgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <VBox spacing="3">
+                <Label text="Customer accounts" styleClass="table-section-title"/>
+                <Label text="Delete customer sign-in access while retaining guest and booking history."
+                       styleClass="muted-text"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="deleteCustomerButton" text="Delete selected customer"
+                    styleClass="toolbar-btn-danger" disable="true"/>
+        </HBox>
+        <TableView fx:id="customersTable" prefHeight="220" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colCustomerUsername" text="Username" prefWidth="180"/>
+                <TableColumn fx:id="colCustomerName" text="Full name" prefWidth="260"/>
+                <TableColumn fx:id="colCustomerStatus" text="Status" prefWidth="140"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </VBox>
+</VBox>

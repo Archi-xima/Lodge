@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.RoomsController"
+      spacing="16" styleClass="module-root">
+    <padding>
+        <Insets top="18" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <VBox spacing="2">
+        <Label text="Room inventory" styleClass="section-headline"/>
+        <Label text="Every room and cottage of the lodge, with its live status and nightly rate."
+               styleClass="section-subheadline"/>
+    </VBox>
+
+    <!-- Filters -->
+    <HBox spacing="12" alignment="CENTER_LEFT" styleClass="card-panel">
+        <Label text="Type" styleClass="form-field-label"/>
+        <ComboBox fx:id="filterTypeCombo" prefWidth="190" styleClass="modern-combo-box"/>
+        <Label text="Status" styleClass="form-field-label"/>
+        <ComboBox fx:id="filterStatusCombo" prefWidth="160" styleClass="modern-combo-box"/>
+        <Label text="Search" styleClass="form-field-label"/>
+        <TextField fx:id="searchField" promptText="Room number or type" prefWidth="200" styleClass="modern-text-field"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label fx:id="roomsCountLabel" text="0 rooms shown" styleClass="muted-text"/>
+    </HBox>
+
+    <!-- Cards + form -->
+    <HBox spacing="16" VBox.vgrow="ALWAYS" alignment="TOP_LEFT">
+
+        <!-- Room cards -->
+        <ScrollPane fitToWidth="true" HBox.hgrow="ALWAYS" styleClass="card-panel-scroll">
+            <VBox styleClass="card-panel" spacing="12">
+                <Label text="Rooms" styleClass="table-section-title"/>
+                <FlowPane fx:id="roomsFlow" hgap="14" vgap="14"/>
+            </VBox>
+        </ScrollPane>
+
+        <!-- Room form -->
+        <VBox prefWidth="320" maxWidth="340" spacing="10" styleClass="card-panel" alignment="TOP_LEFT">
+            <Label fx:id="formTitleLabel" text="Add a new room" styleClass="table-section-title"/>
+
+            <Label text="Room number" styleClass="form-field-label"/>
+            <TextField fx:id="numberField" promptText="e.g. 106 or C3" styleClass="modern-text-field"/>
+
+            <Label text="Room type" styleClass="form-field-label"/>
+            <ComboBox fx:id="typeCombo" maxWidth="Infinity" styleClass="modern-combo-box"/>
+
+            <HBox spacing="10">
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Floor" styleClass="form-field-label"/>
+                    <TextField fx:id="floorField" promptText="0 = cottage" styleClass="modern-text-field"/>
+                </VBox>
+                <VBox spacing="10" HBox.hgrow="ALWAYS">
+                    <Label text="Status" styleClass="form-field-label"/>
+                    <ComboBox fx:id="statusCombo" maxWidth="Infinity" styleClass="modern-combo-box"/>
+                </VBox>
+            </HBox>
+
+            <Label text="Rate override (optional)" styleClass="form-field-label"/>
+            <TextField fx:id="rateField" promptText="Blank = standard rate" styleClass="modern-text-field"/>
+
+            <Label text="Features (comma separated)" styleClass="form-field-label"/>
+            <TextField fx:id="featuresField" promptText="Queen bed, Aircon, Wi-Fi" styleClass="modern-text-field"/>
+
+            <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 6 0 0 0;">
+                <Button fx:id="saveRoomBtn" text="Save room" onAction="#handleSaveRoom" styleClass="btn-primary"/>
+                <Button text="Clear" onAction="#handleClearForm" styleClass="btn-secondary"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="deleteRoomBtn" text="Delete" onAction="#handleDeleteRoom" styleClass="toolbar-btn-danger"/>
+            </HBox>
+
+            <Label text="Tip: click a card to edit that room." styleClass="muted-text-small" wrapText="true"/>
+        </VBox>
+    </HBox>
+
+</VBox>

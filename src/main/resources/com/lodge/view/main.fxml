@@ -6,157 +6,101 @@
 
 <VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.lodge.controller.MainController"
-      prefWidth="1050" prefHeight="750" spacing="0" style="-fx-background-color: #f1f5f9;">
+      prefWidth="1280" prefHeight="800" styleClass="app-root">
 
-    <!-- TOP BLUE BANNER -->
-    <HBox styleClass="top-header-bar" alignment="CENTER_LEFT" spacing="20">
-        <Label text="Lodge Billing Lab" styleClass="app-title-logo"/>
-        
+    <!-- ============================ HEADER ============================ -->
+    <HBox styleClass="top-header-bar" alignment="CENTER_LEFT" spacing="16">
+        <padding>
+            <Insets top="10" right="16" bottom="10" left="18"/>
+        </padding>
+
+        <Label text="☀" styleClass="header-logo"/>
+        <VBox spacing="1">
+            <Label text="SkyRidge Lodge" styleClass="app-title-logo"/>
+            <Label text="Billing &amp; Management System" styleClass="app-subtitle-logo"/>
+        </VBox>
+
         <Region HBox.hgrow="ALWAYS"/>
 
-        <!-- Menu / Links -->
-        <MenuBar style="-fx-background-color: transparent; -fx-padding: 0;">
+        <Label fx:id="occupancyBadge" text="0% occupied" styleClass="header-chip"/>
+
+        <MenuBar styleClass="header-menu">
             <Menu text="File">
-                <MenuItem text="👤 New Guest" onAction="#handleNewGuest"/>
+                <MenuItem text="🧾 New walk-in invoice" onAction="#handleMenuNewInvoice"/>
+                <MenuItem text="📅 New booking" onAction="#handleMenuNewBooking"/>
+                <MenuItem text="🛏 Manage rooms" onAction="#handleMenuRooms"/>
                 <SeparatorMenuItem/>
-                <MenuItem text="🚪 Sign Out" onAction="#handleSignOut"/>
+                <MenuItem text="🚪 Sign out" onAction="#handleSignOut"/>
                 <MenuItem text="❌ Exit" onAction="#handleExit"/>
             </Menu>
             <Menu text="Help">
-                <MenuItem text="🏷️ Practice Room Prices" onAction="#handlePricingRules"/>
-                <MenuItem text="ℹ️ About Lab" onAction="#handleAbout"/>
+                <MenuItem text="🏷 Rates &amp; billing rules" onAction="#handlePricingRules"/>
+                <MenuItem text="🧾 Audit trail" onAction="#handleAuditTrail"/>
+                <MenuItem text="ℹ About" onAction="#handleAbout"/>
             </Menu>
         </MenuBar>
 
-        <!-- Current User Badge -->
-        <HBox alignment="CENTER" spacing="8">
-            <Label fx:id="currentUserLabel" text="Mr E Nyirenda" style="-fx-text-fill: #ffffff; -fx-font-weight: bold; -fx-font-size: 13px;"/>
-            <Label fx:id="userRoleBadge" text="Admin" styleClass="user-badge-header"/>
+        <HBox alignment="CENTER" spacing="10" styleClass="user-chip">
+            <VBox alignment="CENTER_RIGHT" spacing="1">
+                <Label fx:id="currentUserLabel" text="Guest" styleClass="user-chip-name"/>
+                <Label fx:id="userRoleBadge" text="Role" styleClass="user-chip-role"/>
+            </VBox>
         </HBox>
     </HBox>
 
-    <!-- ACTION TOOLBAR -->
-    <HBox styleClass="action-toolbar">
-        <Button fx:id="newGuestBtn" text="👤 New guest" onAction="#handleNewGuest" styleClass="toolbar-btn"/>
-        <Button fx:id="viewReceiptBtn" text="📄 View receipt" onAction="#handleViewReceipt" styleClass="toolbar-btn"/>
-        <Button fx:id="deleteBillBtn" text="🗑️ Delete selected bill" onAction="#handleDeleteSelectedBill" styleClass="toolbar-btn-danger"/>
-        
-        <Region HBox.hgrow="ALWAYS"/>
+    <!-- ============================ BODY ============================ -->
+    <BorderPane VBox.vgrow="ALWAYS">
 
-        <Button fx:id="signOutBtn" text="🚪 Sign out" onAction="#handleSignOut" styleClass="toolbar-btn" style="-fx-text-fill: #475569;"/>
-    </HBox>
+        <!-- Sidebar navigation -->
+        <left>
+            <VBox styleClass="sidebar" spacing="4">
+                <padding>
+                    <Insets top="14" right="10" bottom="14" left="10"/>
+                </padding>
 
-    <!-- MAIN SCROLLABLE CONTENT -->
-    <ScrollPane fitToWidth="true" style="-fx-background: transparent; -fx-background-color: transparent;" VBox.vgrow="ALWAYS">
-        <VBox spacing="16" styleClass="main-content-scroll">
+                <Label text="OPERATIONS" styleClass="sidebar-heading"/>
+                <Button fx:id="navDashboard" text="🏠  Dashboard" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="navRooms" text="🛏  Rooms" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="navBookings" text="📅  Reservations" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="navGuests" text="👥  Guest book" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="navUsers" text="👤  Staff accounts" styleClass="nav-btn" maxWidth="Infinity"/>
 
-            <!-- FORM & PRICING PANEL -->
-            <VBox styleClass="card-panel" spacing="20">
-                
-                <!-- Card Header -->
-                <VBox spacing="4">
-                    <Label text="Lodge Billing Lab" styleClass="section-headline"/>
-                    <Label text="ICT261 Lecture 3   |   Mr E Nyirenda   |   Mulungushi University" styleClass="section-subheadline"/>
+                <Label text="MONEY" styleClass="sidebar-heading" style="-fx-padding: 14 0 4 8;"/>
+                <Button fx:id="navBilling" text="🧾  Billing" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="navReports" text="📊  Reports" styleClass="nav-btn" maxWidth="Infinity"/>
+
+                <Region VBox.vgrow="ALWAYS"/>
+
+                <VBox styleClass="sidebar-card" spacing="4">
+                    <Label text="Front desk tip" styleClass="sidebar-card-title"/>
+                    <Label text="Double-click an invoice to open its printable receipt."
+                           styleClass="sidebar-card-text" wrapText="true"/>
                 </VBox>
-
-                <!-- Two-Column Layout: Form on Left, Pricing Card on Right -->
-                <HBox spacing="32" alignment="TOP_LEFT">
-                    
-                    <!-- LEFT: Billing Input Form -->
-                    <GridPane hgap="16" vgap="12" HBox.hgrow="ALWAYS">
-                        <columnConstraints>
-                            <ColumnConstraints minWidth="130" prefWidth="140"/>
-                            <ColumnConstraints hgrow="ALWAYS" minWidth="280"/>
-                        </columnConstraints>
-
-                        <!-- Guest name -->
-                        <Label text="Guest name:" styleClass="form-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                        <TextField fx:id="guestNameField" promptText="e.g. John Phiri" styleClass="modern-text-field"
-                                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
-
-                        <!-- Room type -->
-                        <Label text="Room type:" styleClass="form-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                        <ComboBox fx:id="roomTypeComboBox" maxWidth="Infinity" styleClass="modern-combo-box"
-                                  GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-
-                        <!-- Nights -->
-                        <Label text="Nights:" styleClass="form-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                        <TextField fx:id="nightsField" promptText="Number of nights (e.g. 5)" styleClass="modern-text-field"
-                                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-
-                        <!-- Extras in K -->
-                        <Label text="Extras in K:" styleClass="form-field-label" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
-                        <TextField fx:id="extrasField" promptText="Additional charges (e.g. 200)" styleClass="modern-text-field"
-                                   GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-
-                        <!-- Amount paid in K -->
-                        <Label text="Amount paid in K:" styleClass="form-field-label" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
-                        <TextField fx:id="paidField" promptText="Advance payment (e.g. 1000)" styleClass="modern-text-field"
-                                   GridPane.rowIndex="4" GridPane.columnIndex="1"/>
-
-                        <!-- Notes -->
-                        <Label text="Notes:" styleClass="form-field-label" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
-                        <TextField fx:id="notesField" promptText="Optional booking remarks" styleClass="modern-text-field"
-                                   GridPane.rowIndex="5" GridPane.columnIndex="1"/>
-
-                        <!-- Action Buttons -->
-                        <HBox spacing="14" alignment="CENTER_LEFT" GridPane.rowIndex="6" GridPane.columnIndex="1">
-                            <padding>
-                                <Insets top="4"/>
-                            </padding>
-                            <Button fx:id="calculateBtn" text="Calculate" onAction="#handleCalculate" styleClass="btn-secondary"/>
-                            <Button fx:id="saveBillBtn" text="Save bill" onAction="#handleSaveBill" styleClass="btn-primary"/>
-                        </HBox>
-                    </GridPane>
-
-                    <!-- RIGHT: Practice Room Prices Card -->
-                    <VBox styleClass="info-card" prefWidth="310" maxWidth="330" spacing="12">
-                        <Label text="Practice room prices" styleClass="info-card-title"/>
-                        
-                        <VBox spacing="6">
-                            <Label text="Standard:  K 350.00 per night" styleClass="info-price-line"/>
-                            <Label text="Deluxe:     K 550.00 per night" styleClass="info-price-line"/>
-                            <Label text="Family:      K 750.00 per night" styleClass="info-price-line"/>
-                        </VBox>
-
-                        <Region styleClass="info-divider"/>
-
-                        <VBox spacing="8">
-                            <Label text="5 nights or more: 5% off the room charge." styleClass="info-note-line" wrapText="true"/>
-                            <Label text="Extras get no discount. No tax in this lab." styleClass="info-note-line" wrapText="true"/>
-                            <Label text="Saved bills last only until you close the app." styleClass="info-note-line" wrapText="true"/>
-                        </VBox>
-                    </VBox>
-
-                </HBox>
             </VBox>
+        </left>
 
-            <!-- SAVED BILLS SECTION -->
-            <VBox styleClass="card-panel" spacing="12">
-                <!-- Header with Status Feedback -->
-                <HBox alignment="CENTER_LEFT" spacing="20">
-                    <Label text="Saved bills" styleClass="table-section-title"/>
-                    <Label fx:id="statusMessageLabel" text="Saved B003: Balance: K 1812.50" styleClass="status-feedback-text"/>
-                </HBox>
-
-                <!-- TableView -->
-                <TableView fx:id="billsTable" styleClass="modern-table-view" prefHeight="220" maxHeight="300">
-                    <columns>
-                        <TableColumn fx:id="colBillId" text="Bill" prefWidth="90"/>
-                        <TableColumn fx:id="colGuestName" text="Guest" prefWidth="200"/>
-                        <TableColumn fx:id="colRoomType" text="Room" prefWidth="130"/>
-                        <TableColumn fx:id="colNights" text="Nights" prefWidth="80"/>
-                        <TableColumn fx:id="colTotal" text="Total" prefWidth="130"/>
-                        <TableColumn fx:id="colPaid" text="Paid" prefWidth="130"/>
-                        <TableColumn fx:id="colBalance" text="Balance" prefWidth="140"/>
-                    </columns>
-                    <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                    </columnResizePolicy>
-                </TableView>
-            </VBox>
-
-        </VBox>
-    </ScrollPane>
+        <!-- Content -->
+        <center>
+            <BorderPane>
+                <center>
+                    <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED"
+                                styleClass="content-scroll">
+                        <content>
+                            <StackPane fx:id="contentPane" styleClass="content-pane"/>
+                        </content>
+                    </ScrollPane>
+                </center>
+                <bottom>
+                    <HBox styleClass="status-bar" alignment="CENTER_LEFT" spacing="10">
+                        <padding>
+                            <Insets top="6" right="14" bottom="6" left="14"/>
+                        </padding>
+                        <Label text="✔ Ready" styleClass="status-ready"/>
+                        <Label fx:id="statusLabel" text="" styleClass="status-bar-text"/>
+                    </HBox>
+                </bottom>
+            </BorderPane>
+        </center>
+    </BorderPane>
 
 </VBox>

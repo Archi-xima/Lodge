@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.DashboardController"
+      spacing="16" styleClass="module-root">
+    <padding>
+        <Insets top="18" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <!-- Headline -->
+    <VBox spacing="2">
+        <Label fx:id="welcomeLabel" text="Welcome back." styleClass="section-headline"/>
+        <Label text="Live numbers from the lodge, refreshed every time you open this screen."
+               styleClass="section-subheadline"/>
+    </VBox>
+
+    <!-- Stat cards -->
+    <HBox spacing="14" styleClass="stats-row">
+        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="OCCUPANCY" styleClass="stat-label"/>
+            <Label fx:id="occupancyValueLabel" text="0%" styleClass="stat-value"/>
+            <Label text="Rooms sold vs. inventory" styleClass="stat-hint"/>
+        </VBox>
+        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="ROOMS OCCUPIED" styleClass="stat-label"/>
+            <Label fx:id="occupiedValueLabel" text="0 / 0" styleClass="stat-value"/>
+            <Label text="Guests currently in house" styleClass="stat-hint"/>
+        </VBox>
+        <VBox styleClass="stat-card" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="ROOMS FREE" styleClass="stat-label"/>
+            <Label fx:id="availableValueLabel" text="0" styleClass="stat-value"/>
+            <Label text="Ready to sell tonight" styleClass="stat-hint"/>
+        </VBox>
+        <VBox styleClass="stat-card stat-card-green" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="COLLECTED TODAY" styleClass="stat-label"/>
+            <Label fx:id="revenueValueLabel" text="K 0.00" styleClass="stat-value"/>
+            <Label text="Payments received today" styleClass="stat-hint"/>
+        </VBox>
+        <VBox styleClass="stat-card stat-card-amber" spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="OUTSTANDING" styleClass="stat-label"/>
+            <Label fx:id="outstandingValueLabel" text="K 0.00" styleClass="stat-value"/>
+            <Label text="Balances still owed" styleClass="stat-hint"/>
+        </VBox>
+    </HBox>
+
+    <!-- Photo gallery -->
+    <VBox styleClass="card-panel" spacing="10">
+        <Label text="The property" styleClass="table-section-title"/>
+        <FlowPane fx:id="galleryBox" hgap="14" vgap="14" alignment="CENTER_LEFT"/>
+    </VBox>
+
+    <!-- Arrivals / departures -->
+    <HBox spacing="14" VBox.vgrow="ALWAYS">
+        <VBox styleClass="card-panel" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Today's arrivals" styleClass="table-section-title"/>
+            <TableView fx:id="arrivalsTable" styleClass="modern-table-view" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colArrivalId" text="Booking" prefWidth="90"/>
+                    <TableColumn fx:id="colArrivalGuest" text="Guest" prefWidth="180"/>
+                    <TableColumn fx:id="colArrivalRoom" text="Room" prefWidth="90"/>
+                    <TableColumn fx:id="colArrivalNights" text="Stay" prefWidth="100"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+
+        <VBox styleClass="card-panel" spacing="10" HBox.hgrow="ALWAYS">
+            <Label text="Today's departures" styleClass="table-section-title"/>
+            <TableView fx:id="departuresTable" styleClass="modern-table-view" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colDepartureId" text="Booking" prefWidth="90"/>
+                    <TableColumn fx:id="colDepartureGuest" text="Guest" prefWidth="180"/>
+                    <TableColumn fx:id="colDepartureRoom" text="Room" prefWidth="90"/>
+                    <TableColumn fx:id="colDepartureBalance" text="To settle" prefWidth="160"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </HBox>
+
+    <!-- Recent bills -->
+    <VBox styleClass="card-panel" spacing="10">
+        <Label text="Latest invoices" styleClass="table-section-title"/>
+        <TableView fx:id="recentBillsTable" styleClass="modern-table-view" prefHeight="200">
+            <columns>
+                <TableColumn fx:id="colRecentBill" text="Bill" prefWidth="90"/>
+                <TableColumn fx:id="colRecentGuest" text="Guest" prefWidth="220"/>
+                <TableColumn fx:id="colRecentTotal" text="Total" prefWidth="140"/>
+                <TableColumn fx:id="colRecentStatus" text="Status" prefWidth="140"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+    </VBox>
+
+</VBox>

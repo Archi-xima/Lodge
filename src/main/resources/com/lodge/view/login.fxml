@@ -2,100 +2,106 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.lodge.controller.LoginController"
-           styleClass="auth-root-pane" prefWidth="900" prefHeight="650">
+<HBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.LoginController"
+      styleClass="auth-root-pane" prefWidth="1080" prefHeight="720" spacing="0">
 
-    <VBox alignment="CENTER" maxWidth="450" spacing="0">
-        <VBox styleClass="auth-card" spacing="18">
+    <!-- ==================== LEFT: PROPERTY PHOTO ==================== -->
+    <StackPane prefWidth="560" minWidth="420" HBox.hgrow="ALWAYS" styleClass="auth-photo-pane">
+        <ImageView fitWidth="760" fitHeight="720" preserveRatio="true" smooth="true">
+            <image>
+                <Image url="@../images/hero-lodge.jpg"/>
+            </image>
+        </ImageView>
+        <VBox alignment="BOTTOM_LEFT" spacing="6" styleClass="auth-photo-overlay">
+            <padding>
+                <Insets top="40" right="40" bottom="46" left="46"/>
+            </padding>
+            <Label text="SkyRidge Lodge" styleClass="auth-photo-title"/>
+            <Label text="Thatched suites, pool &amp; open-air restaurant" styleClass="auth-photo-sub"/>
+            <Label text="Front desk • Reservations • Billing • Reports" styleClass="auth-photo-sub"/>
+        </VBox>
+    </StackPane>
 
-            <!-- Brand Header -->
-            <VBox alignment="CENTER" spacing="6">
-                <Label text="🏨" style="-fx-font-size: 38px;"/>
-                <Label text="Lodge Billing Lab" styleClass="auth-title"/>
-                <Label text="Mulungushi University • ICT261 Lecture 3" styleClass="auth-subtitle"/>
-            </VBox>
+    <!-- ==================== RIGHT: SIGN IN ==================== -->
+    <ScrollPane fitToWidth="true" focusTraversable="false" HBox.hgrow="NEVER" prefWidth="480"
+                styleClass="transparent-scroll">
+        <VBox alignment="CENTER" maxWidth="480" styleClass="auth-card-holder">
+            <padding>
+                <Insets top="34" right="40" bottom="34" left="40"/>
+            </padding>
+            <VBox styleClass="auth-card" spacing="16">
 
-            <Separator/>
-
-            <!-- SIGN IN FORM -->
-            <VBox fx:id="signInForm" spacing="14">
-                <VBox spacing="4">
-                    <Label text="Sign In" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
-                    <Label text="Access the guest billing system" style="-fx-text-fill: #64748b; -fx-font-size: 12px;"/>
+                <VBox alignment="CENTER" spacing="4">
+                    <Label text="🏨" styleClass="auth-emoji"/>
+                    <Label text="Lodge Billing System" styleClass="auth-title"/>
+                    <Label text="Sign in to manage lodge operations or book your stay" styleClass="auth-subtitle"/>
                 </VBox>
 
-                <VBox spacing="6">
+                <Separator/>
+
+                <!-- ========== SIGN IN FORM ========== -->
+                <VBox fx:id="signInForm" spacing="12">
                     <Label text="Username" styleClass="form-field-label"/>
-                    <TextField fx:id="usernameField" promptText="e.g. admin or reception" styleClass="modern-text-field"/>
-                </VBox>
+                    <TextField fx:id="usernameField" promptText="Enter your username" styleClass="modern-text-field"/>
 
-                <VBox spacing="6">
                     <Label text="Password" styleClass="form-field-label"/>
                     <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="modern-text-field"/>
+
+                    <Label fx:id="loginErrorLabel" wrapText="true" styleClass="error-text"/>
+
+                    <Button fx:id="signInButton" text="Sign in" onAction="#handleSignIn"
+                            maxWidth="Infinity" styleClass="btn-primary" style="-fx-padding: 11 20;"/>
+
+                    <Button text="Create a customer account" onAction="#handleShowCustomerRegistration"
+                            styleClass="auth-link"/>
+
                 </VBox>
 
-                <!-- Demo Quick Fill Buttons -->
-                <VBox spacing="6">
-                    <Label text="Quick Demo Logins:" style="-fx-font-size: 11px; -fx-text-fill: #64748b; -fx-font-weight: bold;"/>
-                    <HBox spacing="8">
-                        <Button text="👤 Admin (Mr Nyirenda)" onAction="#handleDemoAdmin" styleClass="demo-chip-btn"/>
-                        <Button text="🛎️ Receptionist" onAction="#handleDemoReception" styleClass="demo-chip-btn"/>
-                    </HBox>
-                </VBox>
-
-                <Label fx:id="loginErrorLabel" wrapText="true" style="-fx-font-size: 12px;"/>
-
-                <Button fx:id="signInButton" text="Sign In" onAction="#handleSignIn"
-                        maxWidth="Infinity" styleClass="btn-primary" style="-fx-padding: 10 20;"/>
-
-                <HBox alignment="CENTER" spacing="6">
-                    <Label text="Need an account?" style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;"/>
-                    <Button text="Register here" onAction="#showSignUpView" styleClass="auth-link"/>
-                </HBox>
-            </VBox>
-
-            <!-- SIGN UP FORM -->
-            <VBox fx:id="signUpForm" spacing="14" visible="false" managed="false">
-                <VBox spacing="4">
-                    <Label text="Register Staff Account" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
-                    <Label text="Create a new system user profile" style="-fx-text-fill: #64748b; -fx-font-size: 12px;"/>
-                </VBox>
-
-                <VBox spacing="6">
-                    <Label text="Full Name" styleClass="form-field-label"/>
-                    <TextField fx:id="regFullNameField" promptText="e.g. Joseph Mwale" styleClass="modern-text-field"/>
-                </VBox>
-
-                <VBox spacing="6">
+                <VBox fx:id="customerRegistrationForm" spacing="12" visible="false" managed="false">
+                    <Label text="Create your customer account" styleClass="auth-form-title"/>
+                    <Label text="Sign up to browse rooms and book your stay." styleClass="muted-text" wrapText="true"/>
+                    <Label text="Full name" styleClass="form-field-label"/>
+                    <TextField fx:id="customerNameField" promptText="Your full name" styleClass="modern-text-field"/>
+                    <Label text="Email" styleClass="form-field-label"/>
+                    <TextField fx:id="customerEmailField" promptText="you@example.com" styleClass="modern-text-field"/>
+                    <Label text="Phone (optional)" styleClass="form-field-label"/>
+                    <TextField fx:id="customerPhoneField" promptText="Phone number" styleClass="modern-text-field"/>
                     <Label text="Username" styleClass="form-field-label"/>
-                    <TextField fx:id="regUsernameField" promptText="e.g. jmwale" styleClass="modern-text-field"/>
+                    <TextField fx:id="customerUsernameField" promptText="Choose a username" styleClass="modern-text-field"/>
+                    <Label text="Password (8 characters minimum)" styleClass="form-field-label"/>
+                    <PasswordField fx:id="customerPasswordField" promptText="Create a password" styleClass="modern-text-field"/>
+                    <Label fx:id="customerRegistrationMessageLabel" wrapText="true"/>
+                    <Button text="Create account and continue" onAction="#handleCreateCustomer"
+                            maxWidth="Infinity" styleClass="btn-primary" style="-fx-padding: 11 20;"/>
+                    <Button text="Back to sign in" onAction="#handleReturnToSignIn" styleClass="auth-link"/>
                 </VBox>
 
-                <VBox spacing="6">
-                    <Label text="Password" styleClass="form-field-label"/>
-                    <PasswordField fx:id="regPasswordField" promptText="Create a secure password" styleClass="modern-text-field"/>
+                <!-- The first administrator is created once, then this setup form stays hidden. -->
+                <VBox fx:id="adminSetupForm" spacing="12" visible="false" managed="false">
+                    <Label text="Set up your administrator account" styleClass="auth-form-title"/>
+                    <Label text="Create the lodge owner account before staff can sign in."
+                           styleClass="muted-text" wrapText="true"/>
+                    <Label text="Name" styleClass="form-field-label"/>
+                    <TextField fx:id="adminNameField" text="Achizima" promptText="Your full name"
+                               styleClass="modern-text-field"/>
+                    <Label text="Username" styleClass="form-field-label"/>
+                    <TextField fx:id="adminUsernameField" text="Achizima" promptText="Choose a username"
+                               styleClass="modern-text-field"/>
+                    <Label text="Password (8 characters minimum)" styleClass="form-field-label"/>
+                    <PasswordField fx:id="adminPasswordField" promptText="Create your administrator password"
+                                   styleClass="modern-text-field"/>
+                    <Label fx:id="adminSetupMessageLabel" wrapText="true"/>
+                    <Button fx:id="createAdminButton" text="Create administrator account"
+                            onAction="#handleCreateAdministrator" maxWidth="Infinity"
+                            styleClass="btn-primary" style="-fx-padding: 11 20;"/>
                 </VBox>
 
-                <VBox spacing="6">
-                    <Label text="Role" styleClass="form-field-label"/>
-                    <ComboBox fx:id="regRoleComboBox" maxWidth="Infinity" styleClass="modern-combo-box"/>
-                </VBox>
-
-                <Label fx:id="regMessageLabel" wrapText="true" style="-fx-font-size: 12px;"/>
-
-                <Button text="Create Account" onAction="#handleSignUp"
-                        maxWidth="Infinity" styleClass="btn-primary" style="-fx-padding: 10 20;"/>
-
-                <HBox alignment="CENTER" spacing="6">
-                    <Label text="Already registered?" style="-fx-text-fill: #64748b; -fx-font-size: 12.5px;"/>
-                    <Button text="Back to Sign In" onAction="#showSignInView" styleClass="auth-link"/>
-                </HBox>
             </VBox>
-
         </VBox>
-    </VBox>
+    </ScrollPane>
 
-</StackPane>
+</HBox>

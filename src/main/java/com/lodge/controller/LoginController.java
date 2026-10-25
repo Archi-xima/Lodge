@@ -1,6 +1,7 @@
 package com.lodge.controller;
 
 import com.lodge.service.AuthService;
+import com.lodge.model.Role;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,34 +15,44 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+/**
+ * Sign in / registration screen.
+ */
 public class LoginController {
 
     @FXML private VBox signInForm;
-    @FXML private VBox signUpForm;
-
-    // Sign In fields
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label loginErrorLabel;
     @FXML private Button signInButton;
 
-    // Sign Up fields
-    @FXML private TextField regFullNameField;
-    @FXML private TextField regUsernameField;
-    @FXML private PasswordField regPasswordField;
-    @FXML private ComboBox<String> regRoleComboBox;
-    @FXML private Label regMessageLabel;
+    @FXML private VBox adminSetupForm;
+    @FXML private TextField adminNameField;
+    @FXML private TextField adminUsernameField;
+    @FXML private PasswordField adminPasswordField;
+    @FXML private Label adminSetupMessageLabel;
+    @FXML private Button createAdminButton;
+    @FXML private VBox customerRegistrationForm;
+    @FXML private TextField customerNameField;
+    @FXML private TextField customerEmailField;
+    @FXML private TextField customerPhoneField;
+    @FXML private TextField customerUsernameField;
+    @FXML private PasswordField customerPasswordField;
+    @FXML private Label customerRegistrationMessageLabel;
 
     @FXML
     public void initialize() {
-        if (regRoleComboBox != null) {
-            regRoleComboBox.getItems().addAll("Staff", "Administrator", "Student");
-            regRoleComboBox.setValue("Staff");
-        }
-
-        // Allow pressing Enter in password field to login
         if (passwordField != null) {
             passwordField.setOnAction(this::handleSignIn);
+            if (usernameField != null) {
+                usernameField.setOnAction(e -> passwordField.requestFocus());
+            }
+        }
+        if (AuthService.getInstance().needsInitialAdministratorSetup()) {
+            signInForm.setVisible(false);
+            signInForm.setManaged(false);
+            adminSetupForm.setVisible(true);
+            adminSetupForm.setManaged(true);
         }
     }
 
@@ -51,84 +62,120 @@ public class LoginController {
         String password = passwordField.getText();
 
         if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            showError("Please enter both username and password.");
+            showError("Please enter both your username and password.");
             return;
         }
 
-        boolean success = AuthService.getInstance().login(username, password);
-        if (success) {
-            loginErrorLabel.setText("");
-            navigateToMain();
-        } else {
-            showError("Invalid credentials. Try admin / admin123 or register.");
+        try {
+            if (AuthService.getInstance().login(username, password)) {
+                loginErrorLabel.setText("");
+                if (AuthService.getInstance().getCurrentUser().getRole() == Role.CUSTOMER) {
+                    navigateToCustomer();
+                } else {
+                    navigateToMain();
+                }
+            } else {
+                showError("Those sign-in details were not recognised. Please try again.");
+            }
+        } catch (RuntimeException e) {
+            showError("Sign-in could not be completed because the local data could not be saved.");
         }
     }
 
     @FXML
-    private void handleDemoAdmin() {
-        usernameField.setText("admin");
-        passwordField.setText("admin123");
-        handleSignIn(null);
-    }
-
-    @FXML
-    private void handleDemoReception() {
-        usernameField.setText("reception");
-        passwordField.setText("lodge123");
-        handleSignIn(null);
-    }
-
-    @FXML
-    private void handleSignUp(ActionEvent event) {
-        String fullName = regFullNameField.getText();
-        String username = regUsernameField.getText();
-        String password = regPasswordField.getText();
-        String role = regRoleComboBox.getValue();
-
-        if (fullName == null || fullName.trim().isEmpty() ||
-            username == null || username.trim().isEmpty() ||
-            password == null || password.trim().isEmpty()) {
-            regMessageLabel.setText("All fields are required!");
-            regMessageLabel.setStyle("-fx-text-fill: #dc2626;");
-            return;
-        }
-
-        boolean created = AuthService.getInstance().register(username, password, fullName, role);
-        if (created) {
-            regMessageLabel.setText("Account created! Switching to Sign In...");
-            regMessageLabel.setStyle("-fx-text-fill: #16a34a;");
-            
-            // Switch back to sign in after brief pause
-            usernameField.setText(username);
-            passwordField.setText(password);
-            showSignInView();
-        } else {
-            regMessageLabel.setText("Username already exists. Choose another.");
-            regMessageLabel.setStyle("-fx-text-fill: #dc2626;");
-        }
-    }
-
-    @FXML
-    private void showSignUpView() {
+    private void handleShowCustomerRegistration(ActionEvent event) {
         signInForm.setVisible(false);
         signInForm.setManaged(false);
-        signUpForm.setVisible(true);
-        signUpForm.setManaged(true);
-        regMessageLabel.setText("");
+        customerRegistrationForm.setVisible(true);
+        customerRegistrationForm.setManaged(true);
+        customerNameField.requestFocus();
     }
 
     @FXML
-    private void showSignInView() {
-        signUpForm.setVisible(false);
-        signUpForm.setManaged(false);
+    private void handleReturnToSignIn(ActionEvent event) {
+        customerRegistrationForm.setVisible(false);
+        customerRegistrationForm.setManaged(false);
         signInForm.setVisible(true);
         signInForm.setManaged(true);
         loginErrorLabel.setText("");
     }
 
+    @FXML
+    private void handleCreateCustomer(ActionEvent event) {
+        String fullName = customerNameField.getText();
+        String email = customerEmailField.getText();
+        String phone = customerPhoneField.getText();
+        String username = customerUsernameField.getText();
+        String password = customerPasswordField.getText();
+        if (fullName == null || fullName.trim().isEmpty()
+                || email == null || email.trim().isEmpty()
+                || username == null || username.trim().isEmpty()
+                || password == null || password.trim().length() < 8) {
+            showCustomerRegistrationError("Enter your name, email, username, and a password of at least 8 characters.");
+            return;
+        }
+
+        try {
+            if (!AuthService.getInstance().registerCustomer(username, password, fullName, email, phone)) {
+                showCustomerRegistrationError("That username is already in use or the details are invalid.");
+                return;
+            }
+            if (!AuthService.getInstance().login(username, password)) {
+                showCustomerRegistrationError("Your account was created, but sign-in failed. Return to sign in.");
+                return;
+            }
+            navigateToCustomer();
+        } catch (RuntimeException e) {
+            showCustomerRegistrationError("Account creation could not be saved: " + e.getMessage());
+        }
+    }
+
+    private void showCustomerRegistrationError(String message) {
+        customerRegistrationMessageLabel.setText(message);
+        customerRegistrationMessageLabel.getStyleClass().setAll("error-text");
+    }
+
+    @FXML
+    private void handleCreateAdministrator(ActionEvent event) {
+        String fullName = adminNameField.getText();
+        String username = adminUsernameField.getText();
+        String password = adminPasswordField.getText();
+
+        if (fullName == null || fullName.trim().isEmpty()
+                || username == null || username.trim().isEmpty()
+                || password == null || password.length() < 8) {
+            adminSetupMessageLabel.setText("Enter your name, username, and a password of at least 8 characters.");
+            adminSetupMessageLabel.getStyleClass().setAll("error-text");
+            return;
+        }
+
+        try {
+            if (!AuthService.getInstance().createInitialAdministrator(username, fullName, password)) {
+                adminSetupMessageLabel.setText("An administrator already exists or that username is unavailable.");
+                adminSetupMessageLabel.getStyleClass().setAll("error-text");
+                return;
+            }
+        } catch (RuntimeException e) {
+            adminSetupMessageLabel.setText("The administrator account could not be saved: " + e.getMessage());
+            adminSetupMessageLabel.getStyleClass().setAll("error-text");
+            return;
+        }
+
+        usernameField.setText(username.trim());
+        passwordField.clear();
+        adminPasswordField.clear();
+        adminSetupForm.setVisible(false);
+        adminSetupForm.setManaged(false);
+        signInForm.setVisible(true);
+        signInForm.setManaged(true);
+        loginErrorLabel.setText("Administrator account created. Sign in to continue.");
+        loginErrorLabel.getStyleClass().setAll("success-text");
+        passwordField.requestFocus();
+    }
+
     private void showError(String message) {
         loginErrorLabel.setText(message);
-        loginErrorLabel.setStyle("-fx-text-fill: #dc2626; -fx-font-weight: bold;");
+        loginErrorLabel.getStyleClass().setAll("error-text");
     }
 
     private void navigateToMain() {
@@ -137,23 +184,39 @@ public class LoginController {
             Parent root = loader.load();
 
             Stage stage = (Stage) signInButton.getScene().getWindow();
-            Scene scene = new Scene(root, 1050, 720);
+            Scene scene = new Scene(root, 1280, 800);
             scene.getStylesheets().add(getClass().getResource("/com/lodge/css/style.css").toExternalForm());
 
-            // Gentle fade transition
             root.setOpacity(0);
             stage.setScene(scene);
-            stage.setTitle("Lodge Billing Lab - ICT261 Lecture 3");
+            stage.setTitle("SkyRidge Lodge Billing System");
             stage.centerOnScreen();
 
-            FadeTransition ft = new FadeTransition(Duration.millis(350), root);
+            FadeTransition ft = new FadeTransition(Duration.millis(320), root);
             ft.setFromValue(0);
             ft.setToValue(1);
             ft.play();
-
         } catch (IOException e) {
+            AuthService.getInstance().logout();
             e.printStackTrace();
-            showError("Error opening main application: " + e.getMessage());
+            showError("Error opening the main application: " + e.getMessage());
+        }
+    }
+
+    private void navigateToCustomer() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/lodge/view/customer.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) signInButton.getScene().getWindow();
+            Scene scene = new Scene(root, 1280, 800);
+            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/style.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Customer Booking — SkyRidge Lodge");
+            stage.centerOnScreen();
+        } catch (IOException e) {
+            AuthService.getInstance().logout();
+            e.printStackTrace();
+            showCustomerRegistrationError("Error opening customer bookings: " + e.getMessage());
         }
     }
 }

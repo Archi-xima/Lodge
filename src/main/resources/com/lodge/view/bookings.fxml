@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.BookingsController"
+      spacing="16" styleClass="module-root">
+    <padding>
+        <Insets top="18" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <VBox spacing="2">
+        <Label text="Reservations" styleClass="section-headline"/>
+        <Label text="Book rooms, check guests in, and check them out — the invoice is raised automatically."
+               styleClass="section-subheadline"/>
+    </VBox>
+
+    <!-- New booking form -->
+    <VBox styleClass="card-panel" spacing="12">
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Label text="New booking" styleClass="table-section-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="＋ Add guest to the book" onAction="#handleNewGuestShortcut" styleClass="btn-secondary"/>
+        </HBox>
+
+        <GridPane hgap="14" vgap="8">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="170"/>
+                <ColumnConstraints prefWidth="260" hgrow="ALWAYS"/>
+                <ColumnConstraints prefWidth="120"/>
+                <ColumnConstraints prefWidth="230" hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Guest" styleClass="form-field-label" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="guestCombo" maxWidth="Infinity" styleClass="modern-combo-box"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Check-in" styleClass="form-field-label" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+            <DatePicker fx:id="checkInPicker" maxWidth="Infinity" styleClass="modern-date-picker"
+                        onAction="#handleDateChanged" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+            <Label text="Room (free for those dates)" styleClass="form-field-label" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="roomCombo" maxWidth="Infinity" styleClass="modern-combo-box"
+                      GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Check-out" styleClass="form-field-label" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+            <DatePicker fx:id="checkOutPicker" maxWidth="Infinity" styleClass="modern-date-picker"
+                        onAction="#handleDateChanged" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+            <Label text="Special requests" styleClass="form-field-label" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="notesField" promptText="Late arrival, extra towels, honeymoon..." styleClass="modern-text-field"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+        </GridPane>
+
+        <HBox alignment="CENTER_LEFT" spacing="14">
+            <Button fx:id="createBookingBtn" text="Create booking" onAction="#handleCreateBooking" styleClass="btn-primary"/>
+            <Label fx:id="nightsLabel" text="1 night(s)" styleClass="chip-label"/>
+            <Label fx:id="estimateLabel" text="" styleClass="muted-text"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label fx:id="statusLabel" text="" styleClass="muted-text"/>
+        </HBox>
+    </VBox>
+
+    <!-- Bookings table -->
+    <VBox styleClass="card-panel" spacing="10" VBox.vgrow="ALWAYS">
+        <Label text="All bookings" styleClass="table-section-title"/>
+        <TableView fx:id="bookingsTable" styleClass="modern-table-view" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colBookingId" text="Booking" prefWidth="90"/>
+                <TableColumn fx:id="colGuest" text="Guest" prefWidth="190"/>
+                <TableColumn fx:id="colRoom" text="Room" prefWidth="170"/>
+                <TableColumn fx:id="colCheckIn" text="Check-in" prefWidth="110"/>
+                <TableColumn fx:id="colCheckOut" text="Check-out" prefWidth="110"/>
+                <TableColumn fx:id="colNights" text="Nights" prefWidth="70"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+            </columns>
+            <columnResizePolicy>
+                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+            </columnResizePolicy>
+        </TableView>
+
+        <HBox alignment="CENTER_LEFT" spacing="12">
+            <Button fx:id="checkInBtn" text="✔ Check in" onAction="#handleCheckIn" styleClass="btn-secondary"/>
+            <Button fx:id="checkOutBtn" text="⏏ Check out &amp; invoice" onAction="#handleCheckOut" styleClass="btn-primary"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="cancelBookingBtn" text="Cancel booking" onAction="#handleCancelBooking" styleClass="toolbar-btn-danger"/>
+        </HBox>
+    </VBox>
+
+</VBox>
