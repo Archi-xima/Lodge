@@ -4,6 +4,7 @@ import com.lodge.util.JsonAdapters;
 import com.lodge.util.Money;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class Bill {
     private String notes;
     private String createdBy;
     private LocalDateTime createdAt;
+    private LocalDate dueDate;
 
     public Bill() {
         this.createdAt = LocalDateTime.now();
@@ -309,6 +311,15 @@ public class Bill {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /** Existing invoices are payable on their issue date unless terms are recorded. */
+    public LocalDate getDueDate() {
+        return dueDate != null ? dueDate : (createdAt == null ? null : createdAt.toLocalDate());
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     // ------------------------------------------------------------------ formatted strings

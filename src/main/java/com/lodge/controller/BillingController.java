@@ -376,7 +376,7 @@ public class BillingController implements ViewController {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
         confirm.setTitle("Void invoice");
         confirm.setHeaderText("Void bill " + selectedBill.getBillId() + "?");
-        confirm.setContentText("A voided bill stays in the records but is excluded from reports and can no longer take payments.");
+        confirm.setContentText("A voided bill stays in the records, is excluded from invoiced totals and cannot take further payments. Existing receipts remain in collections for review.");
         if (confirm.showAndWait().orElse(ButtonType.CANCEL) == ButtonType.OK) {
             BillingService.getInstance().voidBill(selectedBill);
             refreshBillsTable();

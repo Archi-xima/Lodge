@@ -33,12 +33,14 @@ public enum Role {
             return false;
         }
         switch (permission) {
+            case VIEW_ACCOUNTING:
+            case VIEW_REPORTS:
+                return this == ADMIN || this == ACCOUNTANT;
             case MANAGE_USERS:
             case DELETE_BILL:
                 return this == ADMIN;
             case MANAGE_ROOMS:
             case MANAGE_BOOKINGS:
-            case VIEW_REPORTS:
                 return rank >= RECEPTIONIST.rank;
             case RECORD_PAYMENT:
             case BILLING:
@@ -55,6 +57,7 @@ public enum Role {
 
     /** Capabilities checked by the controllers before showing or allowing an action. */
     public enum Permission {
-        BILLING, RECORD_PAYMENT, VIEW_GUESTS, MANAGE_BOOKINGS, MANAGE_ROOMS, VIEW_REPORTS, DELETE_BILL, MANAGE_USERS
+        BILLING, RECORD_PAYMENT, VIEW_GUESTS, MANAGE_BOOKINGS, MANAGE_ROOMS, VIEW_REPORTS, DELETE_BILL, MANAGE_USERS,
+        VIEW_ACCOUNTING
     }
 }

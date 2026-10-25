@@ -35,7 +35,7 @@
             </Menu>
             <Menu text="Help">
                 <MenuItem text="🏷 Rates &amp; billing rules" onAction="#handlePricingRules"/>
-                <MenuItem text="🧾 Audit trail" onAction="#handleAuditTrail"/>
+                <MenuItem fx:id="auditTrailMenu" text="🧾 Audit trail" onAction="#handleAuditTrail"/>
                 <MenuItem text="ℹ About" onAction="#handleAbout"/>
             </Menu>
         </MenuBar>
@@ -67,6 +67,7 @@
 
                 <Label text="MONEY" styleClass="sidebar-heading" style="-fx-padding: 14 0 4 8;"/>
                 <Button fx:id="navBilling" text="🧾  Billing" styleClass="nav-btn" maxWidth="Infinity"/>
+                <Button fx:id="navAccounting" text="Accounting" styleClass="nav-btn" maxWidth="Infinity"/>
                 <Button fx:id="navReports" text="📊  Reports" styleClass="nav-btn" maxWidth="Infinity"/>
 
                 <Region VBox.vgrow="ALWAYS"/>

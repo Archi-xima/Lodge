@@ -603,3 +603,64 @@
 .default-color0.chart-series-line { -fx-stroke: #157347; }
 .default-color0.chart-bar { -fx-bar-fill: #1a7a4d; }
 .default-color1.chart-bar { -fx-bar-fill: #c2851a; }
+
+/* Accountant workspace */
+.accounting-root {
+    -fx-font-family: "Segoe UI";
+    -fx-background-color: #f2f5f3;
+    -fx-text-base-color: #26332c;
+    -fx-text-background-color: #26332c;
+    -fx-control-inner-background: white;
+    -fx-accent: #157347;
+}
+.accounting-root .check-box { -fx-text-fill: #3c4d45; }
+.accounting-root .axis { -fx-tick-label-fill: #6b7b74; }
+.accounting-root .axis-label { -fx-text-fill: #46574e; }
+.accounting-stat {
+    -fx-pref-width: 220;
+    -fx-min-width: 200;
+    -fx-max-width: 220;
+}
+.accounting-stat-value {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #14201a;
+}
+.accounting-method {
+    -fx-pref-width: 220;
+    -fx-min-width: 200;
+    -fx-max-width: 220;
+    -fx-padding: 12 16;
+    -fx-background-color: #e8f1ec;
+    -fx-background-radius: 8;
+}
+.accounting-tabs {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #dfe7e2;
+    -fx-border-radius: 10;
+}
+.accounting-tabs > .tab-header-area > .tab-header-background { -fx-background-color: #eef5f1; }
+.accounting-tabs .tab {
+    -fx-background-color: #eef5f1;
+    -fx-padding: 8 14;
+}
+.accounting-tabs .tab:selected { -fx-background-color: white; }
+.accounting-tabs .tab:selected .tab-label { -fx-text-fill: #0f5132; -fx-font-weight: bold; }
+.accounting-tab-content { -fx-padding: 16; }
+.accounting-metric {
+    -fx-pref-width: 260;
+    -fx-padding: 10 12;
+    -fx-background-color: #f6f9f7;
+    -fx-background-radius: 8;
+}
+.accounting-checks {
+    -fx-padding: 12;
+    -fx-background-color: #fff6e4;
+    -fx-background-radius: 8;
+    -fx-text-fill: #855810;
+}
+.accounting-table .table-cell.accounting-number { -fx-alignment: center-right; }
+.accounting-table .table-row-cell:filled:selected .table-cell { -fx-text-fill: #0f5132; }
+.accounting-expense-form { -fx-padding: 10; }
+.accounting-root .date-picker { -fx-pref-height: 36; }

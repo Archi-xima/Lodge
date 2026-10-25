@@ -5,6 +5,7 @@ import com.lodge.model.PaymentMethod;
 import com.lodge.model.RoomType;
 import com.lodge.service.BillingService;
 import com.lodge.service.ReportService;
+import com.lodge.service.AccountingService;
 import com.lodge.util.Money;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -46,6 +47,7 @@ public class ReportsController implements ViewController {
 
     @FXML
     public void initialize() {
+        AccountingService.getInstance().requireAccess();
         colServiceName.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().name));
         colServiceCategory.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().category));
         colServiceQty.setCellValueFactory(d -> new javafx.beans.property.SimpleIntegerProperty(d.getValue().quantity));
@@ -63,10 +65,12 @@ public class ReportsController implements ViewController {
 
     @Override
     public void onShown() {
+        AccountingService.getInstance().requireAccess();
         refresh();
     }
 
     private void refresh() {
+        AccountingService.getInstance().requireAccess();
         ReportService reports = ReportService.getInstance();
         YearMonth month = monthCombo.getValue() == null ? YearMonth.now() : monthCombo.getValue();
 
