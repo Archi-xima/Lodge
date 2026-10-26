@@ -2,22 +2,31 @@ package com.lodge.service;
 
 import com.lodge.model.Role;
 import com.lodge.model.User;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class AuthServiceBootstrapTest {
+public class AuthServiceBootstrapTest {
 
-    @TempDir
-    Path temporaryDirectory;
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
+    private Path temporaryDirectory;
+
+    @Before
+    public void setUp() {
+        temporaryDirectory = temporaryFolder.getRoot().toPath();
+    }
 
     @Test
-    void removesLegacyDemoAccountsAndKeepsStaffAccounts() {
+    public void removesLegacyDemoAccountsAndKeepsStaffAccounts() {
         DataStore store = new DataStore(temporaryDirectory);
         store.saveUsers(List.of(
                 new User("admin", "old-password", "Demo Administrator", Role.ADMIN),
@@ -40,7 +49,7 @@ class AuthServiceBootstrapTest {
     }
 
     @Test
-    void createsAndPersistsTheFirstAdministratorWithoutExposingPassword() throws Exception {
+    public void createsAndPersistsTheFirstAdministratorWithoutExposingPassword() throws Exception {
         DataStore store = new DataStore(temporaryDirectory);
         AuthService auth = new AuthService(store);
 
@@ -64,7 +73,7 @@ class AuthServiceBootstrapTest {
     }
 
     @Test
-    void restrictsStaffAccountChangesToTheSignedInAdministrator() {
+    public void restrictsStaffAccountChangesToTheSignedInAdministrator() {
         DataStore store = new DataStore(temporaryDirectory);
         AuthService auth = new AuthService(store);
         assertTrue(auth.createInitialAdministrator("Achizima", "Achizima", "Strong-Test-Password"));
@@ -89,7 +98,7 @@ class AuthServiceBootstrapTest {
     }
 
     @Test
-    void preservesExistingAdministratorAndDoesNotAllowPublicRegistration() {
+    public void preservesExistingAdministratorAndDoesNotAllowPublicRegistration() {
         DataStore store = new DataStore(temporaryDirectory);
         store.saveUsers(List.of(
                 new User("operations", "private-password", "Operations Lead", Role.ADMIN)
@@ -103,7 +112,7 @@ class AuthServiceBootstrapTest {
     }
 
     @Test
-    void customerAccountsPersistWithLinkedGuestProfilesAndNoStaffPermissions() {
+    public void customerAccountsPersistWithLinkedGuestProfilesAndNoStaffPermissions() {
         DataStore store = new DataStore(temporaryDirectory);
         GuestService guests = new GuestService(store);
         AuthService auth = new AuthService(store, guests);
@@ -127,7 +136,7 @@ class AuthServiceBootstrapTest {
     }
 
     @Test
-    void administratorCanDeleteCustomerAccountWithoutRemovingGuestOrBookingHistory() {
+    public void administratorCanDeleteCustomerAccountWithoutRemovingGuestOrBookingHistory() {
         DataStore store = new DataStore(temporaryDirectory);
         GuestService guests = new GuestService(store);
         AuthService auth = new AuthService(store, guests);

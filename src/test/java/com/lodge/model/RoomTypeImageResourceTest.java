@@ -1,18 +1,18 @@
 package com.lodge.model;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
-class RoomTypeImageResourceTest {
+public class RoomTypeImageResourceTest {
 
     @Test
-    void everyRoomTypePointsToAnImageBundledWithTheApplication() {
+    public void everyRoomTypePointsToAnImageBundledWithTheApplication() {
         ClassLoader classLoader = RoomType.class.getClassLoader();
 
         for (RoomType roomType : RoomType.values()) {
-            assertNotNull(classLoader.getResource(roomType.getImageResource()),
-                    roomType + " image is missing: " + roomType.getImageResource());
+            assertNotNull(roomType + " image is missing: " + roomType.getImageResource(),
+                    classLoader.getResource(roomType.getImageResource()));
         }
     }
 }
