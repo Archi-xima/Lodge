@@ -24,6 +24,7 @@ public class BookingService {
         if (bookings.isEmpty()) {
             seedBookings();
         }
+        DataStore.getInstance().getPersistence().registerAutoSave("bookings", this::save);
     }
 
     public static synchronized BookingService getInstance() {

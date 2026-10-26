@@ -1,17 +1,9 @@
 package com.lodge.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.lodge.model.*;
-import com.lodge.util.JsonAdapters;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,8 +12,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * JSON file persistence for every entity in the system.
- * Data lives in {@code ~/.lodge-billing} so it survives application restarts.
+ * Typed access to the JSON data files; all file handling is delegated to
+ * {@link PersistenceService}. Data lives in {@code ~/.lodge-billing/data} so it
+ * survives application restarts.
  */
 public class DataStore {
 
@@ -35,27 +28,21 @@ public class DataStore {
     public static final String FILE_SERVICES = "services.json";
     public static final String FILE_AUDIT = "audit.json";
 
-    private final Gson gson;
+    private static final List<String> ALL_FILES = List.of(
+            FILE_USERS, FILE_ROOMS, FILE_GUESTS, FILE_BOOKINGS, FILE_BILLS, FILE_SERVICES, FILE_AUDIT);
+
     private final Path dataDir;
+    private final PersistenceService persistence;
 
     private DataStore() {
         this(Paths.get(System.getProperty("user.home"), ".lodge-billing"));
+        persistence.startAutoSave(PersistenceService.DEFAULT_AUTOSAVE_SECONDS);
     }
 
     DataStore(Path dataDir) {
-        this.gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(JsonAdapters.localDateType(), JsonAdapters.localDateSerializer())
-                .registerTypeAdapter(JsonAdapters.localDateType(), JsonAdapters.localDateDeserializer())
-                .registerTypeAdapter(JsonAdapters.localDateTimeType(), JsonAdapters.localDateTimeSerializer())
-                .registerTypeAdapter(JsonAdapters.localDateTimeType(), JsonAdapters.localDateTimeDeserializer())
-                .create();
         this.dataDir = dataDir;
-        try {
-            Files.createDirectories(dataDir);
-        } catch (IOException e) {
-            throw new IllegalStateException("Could not create lodge data directory: " + dataDir, e);
-        }
+        this.persistence = new PersistenceService(dataDir);
+        this.persistence.initializeStorage(ALL_FILES);
     }
 
     public static synchronized DataStore getInstance() {
@@ -65,8 +52,13 @@ public class DataStore {
         return instance;
     }
 
+    /** Application folder ({@code ~/.lodge-billing}); JSON files are in its {@code data/} subfolder. */
     public Path getDataDir() {
         return dataDir;
+    }
+
+    public PersistenceService getPersistence() {
+        return persistence;
     }
 
     public synchronized boolean isMigrationComplete(String migrationName) {
@@ -86,40 +78,25 @@ public class DataStore {
 
     // ------------------------------------------------------------------ generic list IO
 
-    @SuppressWarnings("unchecked")
-    public synchronized <T> List<T> loadList(String fileName, Class<T> elementType) {
-        Path file = dataDir.resolve(fileName);
-        if (!Files.exists(file)) {
-            return new ArrayList<>();
-        }
-        try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
-            Type listType = TypeToken.getParameterized(List.class, elementType).getType();
-            List<T> loaded = gson.fromJson(reader, listType);
-            return loaded != null ? loaded : new ArrayList<>();
-        } catch (IOException | RuntimeException e) {
-            System.err.println("Could not read " + fileName + ": " + e.getMessage());
-            return new ArrayList<>();
-        }
+    public <T> List<T> loadList(String fileName, Class<T> elementType) {
+        return persistence.loadList(fileName, elementType);
     }
 
-    public synchronized <T> void saveList(String fileName, List<T> items, Class<T> elementType) {
-        saveList(fileName, items, elementType, false);
-    }
-
-    private synchronized <T> void saveListStrict(String fileName, List<T> items, Class<T> elementType) {
-        saveList(fileName, items, elementType, true);
-    }
-
-    private <T> void saveList(String fileName, List<T> items, Class<T> elementType, boolean failOnError) {
-        Path file = dataDir.resolve(fileName);
-        try (Writer writer = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
-            Type listType = TypeToken.getParameterized(List.class, elementType).getType();
-            gson.toJson(items, listType, writer);
-        } catch (IOException e) {
-            if (failOnError) {
-                throw new UncheckedIOException("Could not write lodge data file: " + file, e);
-            }
+    /** Saves a list; failures are logged and swallowed so the UI keeps working (auto-save retries). */
+    public <T> void saveList(String fileName, List<T> items, Class<T> elementType) {
+        try {
+            persistence.saveList(fileName, items, elementType);
+        } catch (PersistenceException e) {
             System.err.println("Could not write " + fileName + ": " + e.getMessage());
+        }
+    }
+
+    private <T> void saveListStrict(String fileName, List<T> items, Class<T> elementType) {
+        try {
+            persistence.saveList(fileName, items, elementType);
+        } catch (PersistenceException e) {
+            throw new UncheckedIOException("Could not write lodge data file: " + e.getPath(),
+                    new IOException(e.getMessage(), e));
         }
     }
 

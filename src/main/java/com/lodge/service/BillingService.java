@@ -29,6 +29,8 @@ public class BillingService {
         if (bills.isEmpty()) {
             seedBills();
         }
+        DataStore.getInstance().getPersistence().registerAutoSave("bills", this::save);
+        DataStore.getInstance().getPersistence().registerAutoSave("services", this::saveCatalog);
     }
 
     public static synchronized BillingService getInstance() {

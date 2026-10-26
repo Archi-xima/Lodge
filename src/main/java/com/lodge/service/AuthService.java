@@ -49,6 +49,8 @@ public class AuthService {
             }
             dataStore.markMigrationComplete(demoCleanupMigration);
         }
+        dataStore.getPersistence().registerAutoSave("users", this::saveUsers);
+        dataStore.getPersistence().registerAutoSave("audit", () -> dataStore.saveAudit(new ArrayList<>(auditTrail)));
     }
 
     public static synchronized AuthService getInstance() {

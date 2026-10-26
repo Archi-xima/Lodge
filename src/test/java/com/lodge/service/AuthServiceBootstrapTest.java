@@ -64,7 +64,7 @@ public class AuthServiceBootstrapTest {
         assertFalse(auth.login("Achizima", "incorrect-password"));
         assertFalse(auth.login("admin", "admin123"));
 
-        String savedUsers = Files.readString(temporaryDirectory.resolve(DataStore.FILE_USERS));
+        String savedUsers = Files.readString(store.getPersistence().fileFor(DataStore.FILE_USERS));
         assertFalse(savedUsers.contains("Strong-Test-Password"));
         assertTrue(savedUsers.contains("passwordHash"));
 

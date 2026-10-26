@@ -26,6 +26,7 @@ public class GuestService {
         if (guests.isEmpty()) {
             seedGuests();
         }
+        dataStore.getPersistence().registerAutoSave("guests", this::save);
     }
 
     public static synchronized GuestService getInstance() {
