@@ -1,0 +1,11 @@
+.root {
+    -fx-primary: #2563EB;
+    -fx-secondary: #10B981;
+    -fx-accent: #F59E0B;
+    -fx-danger: #EF4444;
+    -fx-background-color: #F8FAFC;
+    -fx-surface: #FFFFFF;
+    -fx-text-primary: #0F172A;
+    -fx-text-secondary: #64748B;
+    -fx-border-color: #E2E8F0;
+}

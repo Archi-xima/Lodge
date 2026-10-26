@@ -1,5 +1,6 @@
 package com.lodge;
 
+import com.lodge.util.Constants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,18 +16,23 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/lodge/view/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Constants.LOGIN_VIEW));
             Parent root = loader.load();
 
-            Scene scene = new Scene(root, 1080, 720);
-            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/style.css").toExternalForm());
+            Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
+            
+            // Load all Member 2 stylesheets
+            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/colors.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/typography.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/components.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource(Constants.RESOURCE_CSS).toExternalForm());
 
-            primaryStage.setTitle("Sign In — SkyRidge Lodge Billing System");
+            primaryStage.setTitle(Constants.SIGN_IN_TITLE);
             primaryStage.setScene(scene);
-            primaryStage.setMinWidth(960);
-            primaryStage.setMinHeight(640);
+            primaryStage.setMinWidth(Constants.MIN_WINDOW_WIDTH);
+            primaryStage.setMinHeight(Constants.MIN_WINDOW_HEIGHT);
             try {
-                primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/com/lodge/images/hero-lodge.jpg")));
+                primaryStage.getIcons().add(new Image(getClass().getResourceAsStream(Constants.RESOURCE_IMAGE_DIR + "/hero-lodge.jpg")));
             } catch (Exception ignored) {
                 // icon is cosmetic only
             }
