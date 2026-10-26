@@ -10,13 +10,23 @@ repositories {
 
 dependencies {
     // JSON persistence for guests, rooms, bookings, bills and users
-    implementation 'com.google.code.gson:gson:2.11.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    // Encoding / checksum helpers for the foundation utilities
+    implementation 'commons-codec:commons-codec:1.15'
+
+    // Logging: SLF4J API at compile time, Logback as the runtime binding
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.4.11'
+
+    // Testing
+    testImplementation 'junit:junit:4.13.2'
+    // spec listed 5.4.1, which was never published — 5.4.0 is the real 5.4.x release
+    testImplementation 'org.mockito:mockito-core:5.4.0'
 }
 
 tasks.withType(Test).configureEach {
-    useJUnitPlatform()
+    useJUnit()
 }
 
 javafx {
