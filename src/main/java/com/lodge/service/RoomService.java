@@ -25,6 +25,7 @@ public class RoomService {
         if (rooms.isEmpty()) {
             seedRooms();
         }
+        DataStore.getInstance().getPersistence().registerAutoSave("rooms", this::save);
     }
 
     public static synchronized RoomService getInstance() {
