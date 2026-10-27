@@ -58,9 +58,11 @@ public class ReportService {
 
     public double revenueToday() {
         double sum = 0;
-        for (Bill bill : BillingService.getInstance().billsCreatedOn(LocalDate.now())) {
-            if (bill.getStatus() != BillStatus.VOID) {
-                sum += bill.getAmountPaid();
+        for (Bill bill : BillingService.getInstance().getBills()) {
+            for (Payment payment : bill.getPayments()) {
+                if (payment.getTimestamp() != null && payment.getTimestamp().toLocalDate().equals(LocalDate.now())) {
+                    sum += payment.getAmount();
+                }
             }
         }
         return Money.round(sum);

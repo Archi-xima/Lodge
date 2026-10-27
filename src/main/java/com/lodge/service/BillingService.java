@@ -221,9 +221,10 @@ public class BillingService {
     public double revenueInMonth(YearMonth month) {
         double sum = 0;
         for (Bill bill : bills) {
-            if (bill.getCreatedAt() != null && YearMonth.from(bill.getCreatedAt()).equals(month)
-                    && bill.getStatus() != BillStatus.VOID) {
-                sum += bill.getAmountPaid();
+            for (Payment payment : bill.getPayments()) {
+                if (payment.getTimestamp() != null && YearMonth.from(payment.getTimestamp()).equals(month)) {
+                    sum += payment.getAmount();
+                }
             }
         }
         return Money.round(sum);

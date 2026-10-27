@@ -2,6 +2,7 @@ package com.lodge.controller;
 
 import com.lodge.model.Bill;
 import com.lodge.model.RoomType;
+import com.lodge.model.Role;
 import com.lodge.model.User;
 import com.lodge.service.AuthService;
 import com.lodge.service.BillingService;
@@ -54,6 +55,8 @@ public class MainController implements ViewController {
     @FXML private Button navUsers;
     @FXML private Button navBilling;
     @FXML private Button navReports;
+    @FXML private Button navAccounting;
+    @FXML private MenuItem auditTrailMenu;
 
     private final Map<Button, String> navMap = new LinkedHashMap<>();
     private final Map<String, ViewController> loadedControllers = new LinkedHashMap<>();
@@ -71,16 +74,24 @@ public class MainController implements ViewController {
         navMap.put(navUsers, "users");
         navMap.put(navBilling, "billing");
         navMap.put(navReports, "reports");
+        navMap.put(navAccounting, "accounting");
 
         navMap.forEach((button, key) -> button.setOnAction(event -> navigateTo(key)));
 
         User user = AuthService.getInstance().getCurrentUser();
+        boolean accountingAccess = AuthService.getInstance().hasPermission(Role.Permission.VIEW_ACCOUNTING);
+        auditTrailMenu.setVisible(accountingAccess);
+        for (Button button : new Button[] { navAccounting, navReports }) {
+            button.setVisible(accountingAccess);
+            button.setManaged(accountingAccess);
+            button.setDisable(!accountingAccess);
+        }
         if (user != null) {
             currentUserLabel.setText(user.getFullName());
             userRoleBadge.setText(user.getRoleLabel());
         }
         refreshBadges();
-        navigateTo("dashboard");
+        navigateTo(user != null && user.getRole() == Role.ACCOUNTANT ? "accounting" : "dashboard");
     }
 
     /** Refreshes the occupancy pill in the sidebar. */
@@ -93,6 +104,15 @@ public class MainController implements ViewController {
     // ------------------------------------------------------------------ navigation
 
     public void navigateTo(String key) {
+        if (!navMap.containsValue(key)) {
+            statusLabel.setText("That module is not available.");
+            return;
+        }
+        if (("accounting".equals(key) || "reports".equals(key))
+                && !AuthService.getInstance().hasPermission(Role.Permission.VIEW_ACCOUNTING)) {
+            statusLabel.setText("Accounting access is restricted to accountants and administrators.");
+            return;
+        }
         Button button = navMap.entrySet().stream()
                 .filter(e -> e.getValue().equals(key))
                 .map(Map.Entry::getKey)
@@ -185,6 +205,10 @@ public class MainController implements ViewController {
 
     @FXML
     private void handleAuditTrail(ActionEvent event) {
+        if (!AuthService.getInstance().hasPermission(Role.Permission.VIEW_ACCOUNTING)) {
+            statusLabel.setText("Financial activity is restricted to accountants and administrators.");
+            return;
+        }
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Audit Trail");
         alert.setHeaderText("Latest system activity");
@@ -215,7 +239,7 @@ public class MainController implements ViewController {
                 new Label("SkyRidge Lodge Billing System  —  v2.0"),
                 new Label("Originally developed for ICT261 (OOP) • Mr E. Nyirenda • Mulungushi University"),
                 new Separator(),
-                new Label("Modules: Dashboard, Rooms, Reservations, Guests, Billing, Reports"),
+                new Label("Modules: Dashboard, Rooms, Reservations, Guests, Billing, Accounting, Reports"),
                 new Label("Features:"),
                 new Label("  • Room inventory with live occupancy and photographs"),
                 new Label("  • Reservations with check-in / check-out workflow"),

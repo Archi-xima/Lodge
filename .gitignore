@@ -3,6 +3,40 @@
 build/
 !gradle/wrapper/gradle-wrapper.jar
 
+# Generated Java files and runtime diagnostics
+*.class
+*.log
+*.hprof
+hs_err_pid*
+replay_pid*
+
+# Local scratch files, validation results and visual previews
+/tmp/
+/temp/
+/artifacts/
+/previews/
+/screenshots/
+/reports/
+/test-results/
+/test-output/
+/validation-output/
+/accounting-validation-build/
+/accounting-preview-*/
+/view-review-*/
+/review-checks-*/
+
+# Local validation test sources added during this work
+/src/test/java/com/lodge/service/AccountingServiceTest.java
+/src/test/java/com/lodge/util/CsvTest.java
+
+# Local application records and temporary/backup files
+/.lodge-billing/
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
 # IntelliJ IDEA
 .idea/
 *.iml
