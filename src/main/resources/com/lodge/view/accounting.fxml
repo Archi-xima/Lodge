@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.AccountingController" fx:id="accountingRoot"
+      spacing="16" styleClass="module-root,accounting-root">
+    <padding><Insets top="20" right="20" bottom="24" left="20"/></padding>
+
+    <HBox alignment="CENTER_LEFT" spacing="12">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Accounting" styleClass="section-headline"/>
+            <Label fx:id="viewDescription" styleClass="section-subheadline" wrapText="true"/>
+        </VBox>
+        <Button fx:id="detailToggle" text="Open detailed view" onAction="#toggleDetail" styleClass="btn-secondary"/>
+    </HBox>
+
+    <FlowPane hgap="12" vgap="10" alignment="BOTTOM_LEFT">
+        <VBox spacing="5"><Label text="From" styleClass="form-field-label"/>
+            <DatePicker fx:id="fromPicker" prefWidth="175"/></VBox>
+        <VBox spacing="5"><Label text="To" styleClass="form-field-label"/>
+            <DatePicker fx:id="toPicker" prefWidth="175"/></VBox>
+        <Button text="Apply dates" onAction="#refresh" styleClass="btn-primary"/>
+        <Button text="This month" onAction="#thisMonth" styleClass="btn-secondary"/>
+        <Button text="Export summary" onAction="#exportSummary" styleClass="btn-secondary"/>
+    </FlowPane>
+    <Label fx:id="periodLabel" styleClass="muted-text-small" wrapText="true"/>
+
+    <FlowPane hgap="12" vgap="12">
+        <VBox styleClass="stat-card,accounting-stat" spacing="7">
+            <Label text="INVOICED" styleClass="stat-label"/>
+            <Label fx:id="invoicedValue" text="K 0.00" styleClass="accounting-stat-value"/>
+            <Label text="Issued in the selected period" styleClass="stat-hint"/></VBox>
+        <VBox styleClass="stat-card,stat-card-green,accounting-stat" spacing="7">
+            <Label text="COLLECTED" styleClass="stat-label"/>
+            <Label fx:id="collectedValue" text="K 0.00" styleClass="accounting-stat-value"/>
+            <Label text="By the actual payment date" styleClass="stat-hint"/></VBox>
+        <VBox styleClass="stat-card,stat-card-amber,accounting-stat" spacing="7">
+            <Label text="CUSTOMER BALANCES" styleClass="stat-label"/>
+            <Label fx:id="outstandingValue" text="K 0.00" styleClass="accounting-stat-value"/>
+            <Label text="Outstanding now, all invoices" styleClass="stat-hint"/></VBox>
+        <VBox styleClass="stat-card,accounting-stat" spacing="7">
+            <Label text="SUPPLIER PAYMENTS" styleClass="stat-label"/>
+            <Label fx:id="expensesPaidValue" text="K 0.00" styleClass="accounting-stat-value"/>
+            <Label text="Paid in the selected period" styleClass="stat-hint"/></VBox>
+    </FlowPane>
+
+    <FlowPane hgap="12" vgap="10">
+        <VBox styleClass="accounting-method" spacing="5"><Label text="Cash receipts" styleClass="muted-text"/>
+            <Label fx:id="cashValue" text="K 0.00" styleClass="detail-strong"/></VBox>
+        <VBox styleClass="accounting-method" spacing="5"><Label text="Mobile money receipts" styleClass="muted-text"/>
+            <Label fx:id="mobileValue" text="K 0.00" styleClass="detail-strong"/></VBox>
+        <VBox styleClass="accounting-method" spacing="5"><Label text="Bank transfer receipts" styleClass="muted-text"/>
+            <Label fx:id="bankValue" text="K 0.00" styleClass="detail-strong"/></VBox>
+        <VBox styleClass="accounting-method" spacing="5"><Label text="Card receipts" styleClass="muted-text"/>
+            <Label fx:id="cardValue" text="K 0.00" styleClass="detail-strong"/></VBox>
+    </FlowPane>
+
+    <Label fx:id="trendLabel" styleClass="muted-text-small" wrapText="true"/>
+    <Label fx:id="accountingMessage" wrapText="true"/>
+
+    <!-- Only aggregate information is loaded for the administrator's summary. -->
+    <VBox fx:id="summaryPane" spacing="12" styleClass="card-panel">
+        <Label text="Invoices and collections" styleClass="table-section-title"/>
+        <BarChart fx:id="summaryTrend" prefHeight="280" animated="false">
+            <xAxis><CategoryAxis label="Month"/></xAxis>
+            <yAxis><NumberAxis label="Amount (K)" forceZeroInRange="true"/></yAxis>
+        </BarChart>
+        <Label text="Open the detailed view to inspect individual invoices, payments, supplier expenses and financial activity."
+               styleClass="muted-text" wrapText="true"/>
+    </VBox>
+
+    <TabPane fx:id="detailTabs" tabClosingPolicy="UNAVAILABLE" prefHeight="640" minHeight="540"
+             styleClass="accounting-tabs">
+        <tabs>
+            <Tab text="Overview">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="transparent-scroll">
+                    <VBox spacing="16" styleClass="accounting-tab-content">
+                        <FlowPane hgap="12" vgap="12">
+                            <VBox styleClass="accounting-metric" spacing="5"><Label text="Net invoiced" styleClass="muted-text"/>
+                                <Label fx:id="netValue" styleClass="detail-strong"/></VBox>
+                            <VBox styleClass="accounting-metric" spacing="5"><Label text="VAT on invoices" styleClass="muted-text"/>
+                                <Label fx:id="taxValue" styleClass="detail-strong"/></VBox>
+                            <VBox styleClass="accounting-metric" spacing="5"><Label text="Long-stay discounts" styleClass="muted-text"/>
+                                <Label fx:id="discountsValue" styleClass="detail-strong"/></VBox>
+                            <VBox styleClass="accounting-metric" spacing="5"><Label text="VAT on supplier expenses" styleClass="muted-text"/>
+                                <Label fx:id="expenseTaxValue" styleClass="detail-strong"/></VBox>
+                            <VBox styleClass="accounting-metric" spacing="5"><Label text="Supplier bills unpaid now" styleClass="muted-text"/>
+                                <Label fx:id="supplierValue" styleClass="detail-strong"/></VBox>
+                            <VBox styleClass="accounting-metric" spacing="5"><Label text="Customer balances overdue now" styleClass="muted-text"/>
+                                <Label fx:id="overdueValue" styleClass="detail-strong"/></VBox>
+                        </FlowPane>
+                        <Label text="Invoices and collections" styleClass="table-section-title"/>
+                        <BarChart fx:id="detailTrend" prefHeight="255" minHeight="220" animated="false">
+                            <xAxis><CategoryAxis label="Month"/></xAxis>
+                            <yAxis><NumberAxis label="Amount (K)" forceZeroInRange="true"/></yAxis>
+                        </BarChart>
+                        <Label fx:id="checksLabel" wrapText="true" styleClass="accounting-checks"/>
+                        <Label text="Collections include money already received on voided invoices. Review any required refunds separately."
+                               styleClass="muted-text-small" wrapText="true"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab text="Payments">
+                <VBox spacing="12" styleClass="accounting-tab-content">
+                    <FlowPane hgap="10" vgap="10">
+                        <ComboBox fx:id="paymentFilter" prefWidth="200" styleClass="modern-combo-box"/>
+                        <TextField fx:id="paymentSearch" promptText="Invoice, guest or reference" prefWidth="245" styleClass="modern-text-field"/>
+                        <Button text="Export period payments" onAction="#exportPayments" styleClass="btn-secondary"/>
+                    </FlowPane>
+                    <Label text="Every receipt in the selected period, including payments against older invoices. Scroll across for references and receiving staff."
+                           styleClass="muted-text" wrapText="true"/>
+                    <TableView fx:id="paymentsTable" prefHeight="330" minHeight="220" VBox.vgrow="ALWAYS" styleClass="modern-table-view,accounting-table"/>
+                    <TitledPane text="Check receipts against cash or a statement" expanded="false">
+                        <VBox spacing="10">
+                            <Label text="Compare the selected period's receipts with the matching cash count or bank/mobile statement receipt total."
+                                   wrapText="true" styleClass="muted-text"/>
+                            <FlowPane hgap="10" vgap="10">
+                                <ComboBox fx:id="checkMethod" prefWidth="180"/>
+                                <TextField fx:id="checkAmount" promptText="Counted / statement receipts (K)" prefWidth="250"/>
+                                <Button fx:id="compareReceiptsButton" text="Compare amount" onAction="#compareReceipts" styleClass="btn-secondary"/>
+                            </FlowPane>
+                            <Label fx:id="checkResult" wrapText="true" styleClass="detail-strong"/>
+                            <Label text="This is a comparison of receipts, before bank fees or payouts. It does not mark bank statement transactions as reconciled."
+                                   wrapText="true" styleClass="muted-text-small"/>
+                        </VBox>
+                    </TitledPane>
+                </VBox>
+            </Tab>
+            <Tab text="Outstanding">
+                <VBox spacing="12" styleClass="accounting-tab-content">
+                    <FlowPane hgap="12" vgap="10" alignment="CENTER_LEFT">
+                        <TextField fx:id="outstandingSearch" promptText="Invoice or guest" prefWidth="230" styleClass="modern-text-field"/>
+                        <CheckBox fx:id="overdueOnly" text="Overdue only"/>
+                        <Button text="Export all outstanding" onAction="#exportOutstanding" styleClass="btn-secondary"/>
+                    </FlowPane>
+                    <Label text="Current unpaid balances across all invoice dates. Ageing is measured from the due date; invoices default to due on issue."
+                           styleClass="muted-text" wrapText="true"/>
+                    <TableView fx:id="outstandingTable" prefHeight="330" minHeight="230" VBox.vgrow="ALWAYS" styleClass="modern-table-view,accounting-table"/>
+                    <FlowPane hgap="10" vgap="10" alignment="CENTER_LEFT">
+                        <Label text="Selected invoice due date" styleClass="form-field-label"/>
+                        <DatePicker fx:id="invoiceDuePicker" prefWidth="175"/>
+                        <Button fx:id="updateDueButton" text="Save due date" onAction="#updateDueDate" styleClass="btn-secondary"/>
+                    </FlowPane>
+                </VBox>
+            </Tab>
+            <Tab text="Expenses">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="transparent-scroll">
+                    <VBox spacing="14" styleClass="accounting-tab-content">
+                        <TitledPane fx:id="expenseEntryPane" text="Record a supplier expense" expanded="false">
+                            <VBox spacing="12" styleClass="accounting-expense-form">
+                                <FlowPane hgap="12" vgap="12">
+                                    <VBox spacing="5"><Label text="Supplier" styleClass="form-field-label"/>
+                                        <TextField fx:id="supplierField" prefWidth="240" styleClass="modern-text-field"/></VBox>
+                                    <VBox spacing="5"><Label text="Description" styleClass="form-field-label"/>
+                                        <TextField fx:id="expenseDescriptionField" prefWidth="300" styleClass="modern-text-field"/></VBox>
+                                    <VBox spacing="5"><Label text="Category" styleClass="form-field-label"/>
+                                        <ComboBox fx:id="expenseCategory" prefWidth="220" styleClass="modern-combo-box"/></VBox>
+                                    <VBox spacing="5"><Label text="Supplier invoice reference" styleClass="form-field-label"/>
+                                        <TextField fx:id="supplierInvoiceField" prefWidth="240" styleClass="modern-text-field"/></VBox>
+                                    <VBox spacing="5"><Label text="Invoice date" styleClass="form-field-label"/>
+                                        <DatePicker fx:id="expenseIssuedPicker" prefWidth="175"/></VBox>
+                                    <VBox spacing="5"><Label text="Due date" styleClass="form-field-label"/>
+                                        <DatePicker fx:id="expenseDuePicker" prefWidth="175"/></VBox>
+                                    <VBox spacing="5"><Label text="Total including VAT (K)" styleClass="form-field-label"/>
+                                        <TextField fx:id="expenseTotalField" prefWidth="200" promptText="e.g. 580.00" styleClass="modern-text-field"/></VBox>
+                                    <VBox spacing="5"><Label text="VAT included in total (K)" styleClass="form-field-label"/>
+                                        <TextField fx:id="expenseTaxField" prefWidth="200" text="0" styleClass="modern-text-field"/></VBox>
+                                </FlowPane>
+                                <CheckBox fx:id="expensePaidCheck" text="Already paid in full"/>
+                                <VBox fx:id="expensePaymentFields" spacing="8" visible="false" managed="false">
+                                    <FlowPane hgap="12" vgap="10">
+                                        <VBox spacing="5"><Label text="Paid on" styleClass="form-field-label"/>
+                                            <DatePicker fx:id="expensePaidPicker" prefWidth="175"/></VBox>
+                                        <VBox spacing="5"><Label text="Payment method" styleClass="form-field-label"/>
+                                            <ComboBox fx:id="expenseMethod" prefWidth="190" styleClass="modern-combo-box"/></VBox>
+                                        <VBox spacing="5"><Label text="Payment reference" styleClass="form-field-label"/>
+                                            <TextField fx:id="expensePaymentRef" prefWidth="245" styleClass="modern-text-field"/></VBox>
+                                    </FlowPane>
+                                </VBox>
+                                <Button fx:id="saveExpenseButton" text="Save supplier expense" onAction="#recordExpense" styleClass="btn-primary"/>
+                            </VBox>
+                        </TitledPane>
+                        <FlowPane hgap="12" vgap="10" alignment="CENTER_LEFT">
+                            <Label text="Supplier register · selected invoice dates" styleClass="table-section-title"/>
+                            <Button text="Export expenses" onAction="#exportExpenses" styleClass="btn-secondary"/>
+                        </FlowPane>
+                        <TableView fx:id="expensesTable" prefHeight="280" minHeight="230" styleClass="modern-table-view,accounting-table"/>
+                        <Label text="Pay the selected unpaid supplier bill in full" styleClass="table-section-title"/>
+                        <FlowPane hgap="12" vgap="10" alignment="BOTTOM_LEFT">
+                            <VBox spacing="5"><Label text="Paid on" styleClass="form-field-label"/>
+                                <DatePicker fx:id="settleDatePicker" prefWidth="170"/></VBox>
+                            <VBox spacing="5"><Label text="Method" styleClass="form-field-label"/>
+                                <ComboBox fx:id="settleMethod" prefWidth="175" styleClass="modern-combo-box"/></VBox>
+                            <VBox spacing="5"><Label text="Payment reference" styleClass="form-field-label"/>
+                                <TextField fx:id="settleReference" prefWidth="230" styleClass="modern-text-field"/></VBox>
+                            <Button fx:id="settleExpenseButton" text="Record supplier payment" onAction="#settleExpense" styleClass="btn-primary"/>
+                        </FlowPane>
+                        <Label text="Enter the VAT shown on the supplier invoice. Unpaid bills are kept in the register until payment is recorded."
+                               wrapText="true" styleClass="muted-text-small"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab text="Reports">
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="transparent-scroll">
+                    <VBox spacing="14" styleClass="accounting-tab-content">
+                        <FlowPane hgap="10" vgap="10">
+                            <Button text="Export financial summary" onAction="#exportSummary" styleClass="btn-secondary"/>
+                            <Button text="Export invoice register" onAction="#exportInvoices" styleClass="btn-secondary"/>
+                        </FlowPane>
+                        <Label text="Period totals use invoice dates for sales and expense bills, and payment dates for money received or paid. Current balances include earlier periods."
+                               wrapText="true" styleClass="muted-text"/>
+                        <TableView fx:id="reportTable" prefHeight="390" minHeight="300" styleClass="modern-table-view,accounting-table"/>
+                        <Label text="Receipts less supplier payments is a cash movement measure. These figures cover recorded transactions and are not a complete profit and loss statement."
+                               wrapText="true" styleClass="muted-text-small"/>
+                        <Label text="Financial activity · selected dates" styleClass="table-section-title"/>
+                        <TableView fx:id="activityTable" prefHeight="250" minHeight="200" styleClass="modern-table-view,accounting-table"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>

@@ -37,6 +37,7 @@ to staff operations. This is a local desktop booking flow, not a public website.
 | **Staff accounts** | Staff-only account list, account creation, and admin-only customer login deletion while retaining guest/booking history. |
 | **Billing** | Walk-in invoices, extra charges from the price list, part payments (cash / mobile money / card / bank transfer), voiding, and a printable receipt. Double-click a bill to open its receipt. |
 | **Reports** | Revenue by room type, payments by method (pie), billed vs. collected over six months, best-selling extras, KPI tiles and a month selector. |
+| **Accounting** | Accountant/admin-only financial workspace: date-based receipts, cash/mobile money/bank/card totals, invoice ageing, supplier expenses and payments, CSV exports and financial activity. Accountants always see detail; administrators start with a summary and can explicitly open detail. |
 | **Menu → Help** | Rates & billing rules, audit trail of everything users have done, and the About box. |
 
 ---
@@ -98,6 +99,40 @@ src/main/resources/com/lodge/
   `Role.Permission` prevents customers from accessing staff operations.
 * **Audit trail**: logins, bookings, check-ins, payments, edits and deletions are recorded with
   user and timestamp (Help ▸ Audit trail).
+
+### Accountant workspace
+
+The **Accounting** navigation item and financial reports are available only to `ACCOUNTANT`
+and `ADMIN` accounts. The accounting service checks access again for every read, export and
+change. Accountants land on the detailed workspace after sign-in. An administrator opens a
+summary first and can choose **Open detailed view**; returning to the module starts in summary
+again. Detailed invoice/customer/payment rows are not returned in summary mode.
+
+The detailed workspace contains Overview, Payments, Outstanding, Expenses and Reports:
+
+* Select an inclusive date range for invoices, receipts, expenses and exports. Receipts use
+  the actual payment date, including payments against older invoices. Outstanding customer
+  and supplier balances are current balances across all dates.
+* Cash, Mobile Money and Bank Transfer are explicit collection methods and filters. Card
+  remains supported for existing records. Voiding an invoice does not erase cash already
+  received; such receipts are flagged for review.
+* Outstanding invoices are grouped by days past their due date. Existing invoices default
+  to due on issue; an accountant or administrator can save a different due date.
+* Record real supplier bills, their total and included VAT, supplier references, category,
+  issue/due dates, and full payment details. Bank, mobile money and card supplier payments
+  require a reference. Supplier expenses persist in `~/.lodge-billing/expenses.json` and use
+  strict file replacement; failed saves do not publish an unsaved expense in memory.
+* Export the period's payment/invoice/expense registers, current outstanding accounts, or
+  the financial summary as UTF-8 CSV. Table searches filter the display; register exports
+  contain all records for the selected dates (all dates for current outstanding accounts).
+* The receipt comparison checks recorded receipts against a manually entered cash count or
+  statement receipt total. It does not import statements or mark transactions reconciled.
+
+Supplier payments currently settle a supplier bill in full. Expense VAT is entered from the
+supplier document, not inferred automatically. Reports cover recorded transactions; they
+are not a complete general ledger, profit and loss statement, tax return or bank integration.
+Room-service and room-customization modules are reserved for separate work and are not
+implemented by this feature.
 
 ---
 

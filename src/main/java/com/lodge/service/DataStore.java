@@ -15,6 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -34,6 +36,7 @@ public class DataStore {
     public static final String FILE_BILLS = "bills.json";
     public static final String FILE_SERVICES = "services.json";
     public static final String FILE_AUDIT = "audit.json";
+    public static final String FILE_EXPENSES = "expenses.json";
 
     private final Gson gson;
     private final Path dataDir;
@@ -107,7 +110,25 @@ public class DataStore {
     }
 
     private synchronized <T> void saveListStrict(String fileName, List<T> items, Class<T> elementType) {
-        saveList(fileName, items, elementType, true);
+        Path temporary = null;
+        try {
+            temporary = Files.createTempFile(dataDir, fileName + "-", ".tmp");
+            try (Writer writer = Files.newBufferedWriter(temporary, StandardCharsets.UTF_8)) {
+                gson.toJson(items, TypeToken.getParameterized(List.class, elementType).getType(), writer);
+            }
+            try {
+                Files.move(temporary, dataDir.resolve(fileName),
+                        StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(temporary, dataDir.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException("Could not save lodge data file: " + fileName, e);
+        } finally {
+            if (temporary != null) {
+                try { Files.deleteIfExists(temporary); } catch (IOException ignored) { }
+            }
+        }
     }
 
     private <T> void saveList(String fileName, List<T> items, Class<T> elementType, boolean failOnError) {
@@ -172,6 +193,29 @@ public class DataStore {
 
     public void saveBills(List<Bill> bills) {
         saveList(FILE_BILLS, bills, Bill.class);
+    }
+
+    public void saveBillsStrict(List<Bill> bills) {
+        saveListStrict(FILE_BILLS, bills, Bill.class);
+    }
+
+    public List<Expense> loadExpenses() {
+        Path file = dataDir.resolve(FILE_EXPENSES);
+        if (!Files.exists(file)) return new ArrayList<>();
+        try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
+            List<Expense> loaded = gson.fromJson(reader,
+                    TypeToken.getParameterized(List.class, Expense.class).getType());
+            if (loaded == null || loaded.stream().anyMatch(java.util.Objects::isNull)) {
+                throw new IllegalStateException("The expense register is invalid.");
+            }
+            return loaded;
+        } catch (IOException | RuntimeException e) {
+            throw new IllegalStateException("Could not read expenses. The saved file has been preserved.", e);
+        }
+    }
+
+    public void saveExpensesStrict(List<Expense> expenses) {
+        saveListStrict(FILE_EXPENSES, expenses, Expense.class);
     }
 
     public List<ServiceItem> loadServices() {
