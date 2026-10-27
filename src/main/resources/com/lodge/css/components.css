@@ -1,0 +1,20 @@
+.badge-success {
+    -fx-background-color: #D1FAE5; /* Green 100 approx */
+    -fx-text-fill: #15803D;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 12;
+}
+
+.badge-warning {
+    -fx-background-color: #FEF3C7; /* Amber 100 */
+    -fx-text-fill: #92400E;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 12;
+}
+
+.badge-error {
+    -fx-background-color: #FEE2E2; /* Red 100 */
+    -fx-text-fill: #B91C1C;
+    -fx-padding: 4 8 4 8;
+    -fx-background-radius: 12;
+}
