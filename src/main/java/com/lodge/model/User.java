@@ -1,10 +1,11 @@
+
 package com.lodge.model;
 
 import com.lodge.util.PasswordUtil;
 
 import java.time.LocalDateTime;
 
-/** A staff member of the lodge. The password is stored as a SHA-256 hash. */
+/** Represents a lodge user with role-based permissions. */
 public class User {
 
     private String username;
@@ -23,21 +24,24 @@ public class User {
     public User(String username, String rawPassword, String fullName, Role role) {
         this();
         this.username = username;
-        this.passwordHash = PasswordUtil.hash(rawPassword);
+        setPassword(rawPassword);
         this.fullName = fullName;
         this.role = role;
     }
 
+    /** Checks a raw password against the stored password hash. */
     public boolean checkPassword(String rawPassword) {
         return PasswordUtil.matches(rawPassword, passwordHash);
     }
 
+    /** Stores a salted password hash, never the raw password. */
     public void setPassword(String rawPassword) {
         this.passwordHash = PasswordUtil.hash(rawPassword);
     }
 
+    /** Checks both account status and the requested permission. */
     public boolean can(Role.Permission permission) {
-        return active && role != null && role.can(permission);
+        return active && role != null && permission != null && role.can(permission);
     }
 
     public String getUsername() {
@@ -52,6 +56,10 @@ public class User {
         return passwordHash;
     }
 
+    /**
+     * Persistence compatibility: DataStore may need to restore an existing hash.
+     * Do not pass a raw password to this method.
+     */
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
