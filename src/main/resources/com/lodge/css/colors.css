@@ -1,11 +1,21 @@
 .root {
-    -fx-primary: #2563EB;
-    -fx-secondary: #10B981;
-    -fx-accent: #F59E0B;
-    -fx-danger: #EF4444;
-    -fx-background-color: #F8FAFC;
-    -fx-surface: #FFFFFF;
-    -fx-text-primary: #0F172A;
-    -fx-text-secondary: #64748B;
-    -fx-border-color: #E2E8F0;
+  --fx-primary50: #9eb6eb;
+  --fx-primary100: #7dadff;
+  --fx-primary200: #5d8ffb;
+  --fx-primary300: #407bfb;
+  --fx-primary400: #3171fa;
+  --fx-primary: #2563EB;
+  --fx-primary500: #1555e1;
+  --fx-primary600: #1145b6;
+  --fx-primary700: #0d3791;
+  --fx-primary800: #0b2e79;
+  --fx-primary900: #061a46;
+  -fx-secondary: #10B981;
+  -fx-accent: #F59E0B;
+  -fx-danger: #EF4444;
+  -fx-background-color: #F8FAFC;
+  -fx-surface: #FFFFFF;
+  -fx-text-primary: #0F172A;
+  -fx-text-secondary: #64748B;
+  -fx-border-color: #E2E8F0;
 }
