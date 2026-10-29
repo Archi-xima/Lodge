@@ -34,6 +34,7 @@ public class AdminPanelController {
                 "Administrator settings — configuration is read-only.");
     }
 
+
     @FXML
     private void handleShowSecurityInfo() {
         if (!AuthService.getInstance()
