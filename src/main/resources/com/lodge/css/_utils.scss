@@ -1,0 +1,60 @@
+/* ------------------------------ status pills ------------------------------ */
+.status-pill {
+  -fx-background-radius: 12;
+  -fx-padding: 3 11;
+  -fx-font-size: 11px;
+  -fx-font-weight: bold;
+}
+
+.status-green {
+  -fx-background-color: #dcfce7;
+  -fx-text-fill: #15803d;
+}
+
+.status-amber {
+  -fx-background-color: #fef3c7;
+  -fx-text-fill: #b45309;
+}
+
+.status-blue {
+  -fx-background-color: #dbeafe;
+  -fx-text-fill: #1d4ed8;
+}
+
+.status-red {
+  -fx-background-color: #fee2e2;
+  -fx-text-fill: #b91c1c;
+}
+
+.status-grey {
+  -fx-background-color: #e5e7eb;
+  -fx-text-fill: #4b5563;
+}
+
+.success-text {
+  -fx-text-fill: #15803d;
+  -fx-font-weight: bold;
+  -fx-font-size: 12px;
+}
+
+.error-text {
+  -fx-text-fill: #dc2626;
+  -fx-font-weight: bold;
+  -fx-font-size: 12px;
+}
+
+.muted-text {
+  -fx-text-fill: #6b7b74;
+  -fx-font-size: 12.5px;
+}
+
+.muted-text-small {
+  -fx-text-fill: #6b7b74;
+  -fx-font-size: 11px;
+}
+
+.detail-strong {
+  -fx-text-fill: #14201a;
+  -fx-font-size: 15px;
+  -fx-font-weight: bold;
+}

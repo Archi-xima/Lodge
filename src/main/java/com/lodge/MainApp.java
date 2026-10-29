@@ -22,9 +22,11 @@ public class MainApp extends Application {
             Scene scene = new Scene(root, Constants.DEFAULT_WINDOW_WIDTH, Constants.DEFAULT_WINDOW_HEIGHT);
             
             // Load all Member 2 stylesheets
-            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/colors.css").toExternalForm());
-            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/typography.css").toExternalForm());
-            scene.getStylesheets().add(getClass().getResource("/com/lodge/css/components.css").toExternalForm());
+java.net.URL cssUrl = getClass().getResource("/com/lodge/css/style.css");
+if (cssUrl == null) {
+    throw new IllegalStateException("Cannot find style.css on the classpath!");
+}
+scene.getStylesheets().add(cssUrl.toExternalForm());
             scene.getStylesheets().add(getClass().getResource(Constants.RESOURCE_CSS).toExternalForm());
 
             primaryStage.setTitle(Constants.SIGN_IN_TITLE);

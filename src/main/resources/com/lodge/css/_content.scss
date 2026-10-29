@@ -1,0 +1,54 @@
+/* ------------------------------- content ---------------------------------- */
+.content-pane {
+  -fx-background-color: #f2f5f3;
+}
+
+.content-scroll,
+.customer-scroll {
+  -fx-background-color: #f2f5f3;
+  -fx-background: #f2f5f3;
+  -fx-border-color: transparent;
+}
+
+.content-scroll>.viewport,
+.customer-scroll>.viewport {
+  -fx-background-color: #f2f5f3;
+}
+
+.module-root {
+  -fx-background-color: #f2f5f3;
+}
+
+.status-bar {
+  -fx-background-color: #ffffff;
+  -fx-border-color: #dfe7e2 transparent transparent transparent;
+  -fx-border-width: 1 0 0 0;
+}
+
+.status-ready {
+  -fx-text-fill: #157347;
+  -fx-font-size: 11.5px;
+  -fx-font-weight: bold;
+}
+
+.status-bar-text {
+  -fx-text-fill: #6b7b74;
+  -fx-font-size: 11.5px;
+}
+
+.section-headline {
+  -fx-font-size: 22px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.section-subheadline {
+  -fx-font-size: 12.5px;
+  -fx-text-fill: #6b7b74;
+}
+
+.table-section-title {
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0f5132;
+}
