@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* ------------------------------- auth screen ------------------------------ */
 .auth-root-pane {
   -fx-background-color: #ffffff;
@@ -887,4 +886,4 @@
   -fx-font-family: "Segoe UI", "Inter", sans-serif;
 }
 
-/*# sourceMappingURL=styles.css.map */
+/*# sourceMappingURL=style.css.map */

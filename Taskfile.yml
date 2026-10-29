@@ -5,7 +5,7 @@ version: "3"
 tasks:
   default:
     cmds:
-      - sass src/main/resources/com/lodge/css/styles.scss:src/main/resources/com/lodge/css/styles.css
+      - sass --no-charset src/main/resources/com/lodge/css/style.scss:src/main/resources/com/lodge/css/style.css
       - gradle run
   dev:css:
-    - sass --watch src/main/resources/com/lodge/css/styles.scss:src/main/resources/com/lodge/css/styles.css
+    - sass --watch --no-charset src/main/resources/com/lodge/css/styles.scss:src/main/resources/com/lodge/css/styles.css

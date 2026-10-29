@@ -267,7 +267,7 @@ public class MainController implements ViewController {
                 Parent root = loader.load();
                 Stage stage = (Stage) contentPane.getScene().getWindow();
                 Scene scene = new Scene(root, 1080, 720);
-                scene.getStylesheets().add(getClass().getResource("/com/lodge/css/style.css").toExternalForm());
+                scene.getStylesheets().add(getClass().getResource("css/styles.css").toExternalForm());
                 root.setOpacity(0);
                 stage.setScene(scene);
                 stage.setTitle("Sign In — SkyRidge Lodge Billing System");
