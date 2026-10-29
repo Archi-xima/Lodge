@@ -1,0 +1,107 @@
+/* -------------------------------- receipts -------------------------------- */
+.receipt-root {
+  -fx-background-color: #ffffff;
+  -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.receipt-lodge-name {
+  -fx-font-size: 22px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0f5132;
+}
+
+.receipt-lodge-line {
+  -fx-font-size: 11px;
+  -fx-text-fill: #6b7b74;
+}
+
+.receipt-heading {
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+  -fx-padding: 6 0 0 0;
+}
+
+.receipt-key {
+  -fx-font-size: 11.5px;
+  -fx-text-fill: #6b7b74;
+}
+
+.receipt-value {
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.receipt-section-title {
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0f5132;
+}
+
+.receipt-table {
+  -fx-border-color: #dfe7e2;
+}
+
+.receipt-table .column-header .label {
+  -fx-font-size: 10.5px;
+  -fx-text-fill: #6b7b74;
+}
+
+.receipt-table .table-cell {
+  -fx-font-size: 11.5px;
+  -fx-padding: 5 8;
+}
+
+.receipt-amount {
+  -fx-font-size: 12.5px;
+  -fx-text-fill: #14201a;
+  -fx-alignment: center-right;
+}
+
+.receipt-total-key {
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.receipt-total-amount {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0f5132;
+  -fx-alignment: center-right;
+}
+
+.receipt-balance-amount {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #b45309;
+  -fx-alignment: center-right;
+}
+
+.receipt-lines {
+  -fx-font-size: 11.5px;
+  -fx-text-fill: #33463d;
+}
+
+.receipt-notes {
+  -fx-font-size: 11.5px;
+  -fx-text-fill: #6b7b74;
+}
+
+.receipt-served {
+  -fx-font-size: 11px;
+  -fx-text-fill: #6b7b74;
+  -fx-font-style: italic;
+}
+
+.receipt-thanks {
+  -fx-font-size: 12.5px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0f5132;
+}
+
+.receipt-fineprint {
+  -fx-font-size: 10px;
+  -fx-text-fill: #9aa8a1;
+}

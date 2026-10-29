@@ -9,7 +9,28 @@ guest profiles, invoicing, payments, reporting and persistent storage.
 ---
 
 ## 1. Quick start
+### Requirements For Development
+To do anything regarding the CSS you need sass, to install sass and task
+you will need node js and npm to install sass
+```bash
+npm i -g sass
+```
 
+and as for taskfile you will need to READ THE FOLLOWING INSTRUCTIONS [Here](https://taskfile.dev/)
+
+### Running a DEV Server 
+cd into the Project Dir and type 
+```bash
+task 
+```
+#### For css dev Server
+run the following
+```bash
+task dev:css
+```
+## To Run as a NORMAL USER 
+
+Type 
 ```bash
 gradle run
 ```

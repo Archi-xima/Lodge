@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  default:
+    cmds:
+      - sass src/main/resources/com/lodge/css/styles.scss:src/main/resources/com/lodge/css/styles.css
+      - gradle run
+  dev:css:
+    - sass --watch src/main/resources/com/lodge/css/styles.scss:src/main/resources/com/lodge/css/styles.css
