@@ -10,7 +10,19 @@
   --fx-primary700: #0d3791;
   --fx-primary800: #0b2e79;
   --fx-primary900: #061a46;
-  -fx-secondary: #10B981;
+
+  --fx-secondary: #10B981;
+  --fx-secondary50: #b9f9e4;
+  --fx-secondary100: #8af5d1;
+  --fx-secondary200: #5bf1bf;
+  --fx-secondary300: #2cedad;
+  --fx-secondary400: #12d393;
+  --fx-secondary500: #0ea473;
+  --fx-secondary600: #0a7552;
+  --fx-secondary700: #064631;
+  --fx-secondary800: hsl(160, 89%, 15%);
+  --fx-secondary900: #021710;
+
   -fx-accent: #F59E0B;
   -fx-danger: #EF4444;
   -fx-background-color: #F8FAFC;
