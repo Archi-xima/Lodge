@@ -23,7 +23,17 @@
   --fx-secondary800: hsl(160, 89%, 15%);
   --fx-secondary900: #021710;
 
-  -fx-accent: #F59E0B;
+  --fx-accent50: #fef5e7;
+  --fx-accent100: #fce2b6;
+  --fx-accent200: #face85;
+  --fx-accent300: #f8bb54;
+  --fx-accent400: #f6a723;
+  --fx-accent500: #dc8e09;
+  --fx-accent600: #ab6e07;
+  --fx-accent700: #7a4f05;
+  --fx-accent800: #492f03;
+  --fx-accent900: #181001;
+
   -fx-danger: #EF4444;
   -fx-background-color: #F8FAFC;
   -fx-surface: #FFFFFF;
