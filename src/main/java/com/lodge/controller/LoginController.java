@@ -39,6 +39,7 @@ public class LoginController {
     @FXML private TextField customerUsernameField;
     @FXML private PasswordField customerPasswordField;
     @FXML private Label customerRegistrationMessageLabel;
+    @FXML private Label passwordStrengthLabel;
 
     @FXML
     public void initialize() {
@@ -53,6 +54,32 @@ public class LoginController {
             signInForm.setManaged(false);
             adminSetupForm.setVisible(true);
             adminSetupForm.setManaged(true);
+        }
+        if (customerPasswordField != null) {
+            customerPasswordField.textProperty().addListener(
+                    (obs, oldValue, password) -> {
+                        int score = 0;
+
+                        if (password.length() >= 8) score++;
+                        if (password.matches(".*[A-Z].*")) score++;
+                        if (password.matches(".*[a-z].*")) score++;
+                        if (password.matches(".*\\d.*")) score++;
+                        if (password.matches(".*[^A-Za-z0-9].*")) score++;
+
+                        String strength;
+                        if (password.isEmpty()) {
+                            strength = "Password strength: —";
+                        } else if (score <= 2) {
+                            strength = "Password strength: Weak";
+                        } else if (score <= 3) {
+                            strength = "Password strength: Fair";
+                        } else {
+                            strength = "Password strength: Strong";
+                        }
+
+                        passwordStrengthLabel.setText(strength);
+                    }
+            );
         }
     }
 

@@ -1,0 +1,32 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.AdminPanelController"
+      spacing="18" styleClass="module-root">
+    <padding>
+        <Insets top="24" right="24" bottom="24" left="24"/>
+    </padding>
+
+    <Label text="Administration &amp; System Settings"
+           styleClass="section-headline"/>
+
+    <VBox spacing="12" styleClass="card-panel">
+        <Label text="Administrator" styleClass="table-section-title"/>
+        <Label fx:id="currentUserLabel" text="Not available"/>
+        <Label fx:id="statusLabel" wrapText="true"/>
+    </VBox>
+
+    <VBox spacing="12" styleClass="card-panel">
+        <Label text="Data storage" styleClass="table-section-title"/>
+        <Label text="Current application data directory"/>
+        <Label fx:id="dataDirectoryLabel" wrapText="true"/>
+        <Button text="View security information"
+                onAction="#handleShowSecurityInfo"/>
+    </VBox>
+</VBox>

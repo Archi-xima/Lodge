@@ -50,6 +50,9 @@
 
                     <Label text="Password" styleClass="form-field-label"/>
                     <PasswordField fx:id="passwordField" promptText="Enter your password" styleClass="modern-text-field"/>
+                    <Label fx:id="passwordStrengthLabel"
+                           text="Password strength: —"
+                           styleClass="muted-text"/>
 
                     <Label fx:id="loginErrorLabel" wrapText="true" styleClass="error-text"/>
 

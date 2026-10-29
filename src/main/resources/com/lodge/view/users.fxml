@@ -25,12 +25,24 @@
                     <TableColumn fx:id="colName" text="Full name" prefWidth="220"/>
                     <TableColumn fx:id="colRole" text="Role" prefWidth="160"/>
                     <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+                    <TableColumn fx:id="colCreatedAt"
+                                 text="Created"
+                                 prefWidth="170"/>
                 </columns>
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                 </columnResizePolicy>
             </TableView>
+            <HBox spacing="8">
+                <Button text="Edit selected"
+                        onAction="#handleEditStaff"/>
+                <Button text="Activate / deactivate"
+                        onAction="#handleToggleStaff"/>
+                <Button text="Reset password"
+                        onAction="#handleResetStaffPassword"/>
+            </HBox>
         </VBox>
+
 
         <VBox styleClass="card-panel" spacing="12" prefWidth="340">
             <Label text="Create account" styleClass="table-section-title"/>
