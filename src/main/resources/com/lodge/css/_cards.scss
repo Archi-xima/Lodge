@@ -1,0 +1,61 @@
+/* --------------------------------- cards ---------------------------------- */
+.card-panel {
+  -fx-background-color: #ffffff;
+  -fx-background-radius: 12;
+  -fx-border-color: #dfe7e2;
+  -fx-border-radius: 12;
+  -fx-padding: 16;
+  -fx-effect: dropshadow(gaussian, rgba(20, 40, 30, 0.06), 10, 0, 0, 3);
+}
+
+.card-panel-scroll,
+.gallery-scroll {
+  -fx-background-color: transparent;
+  -fx-background: transparent;
+  -fx-border-color: transparent;
+  -fx-padding: 0;
+}
+
+.gallery-scroll>.viewport {
+  -fx-background-color: transparent;
+}
+
+.stats-row {
+  -fx-padding: 2 0 0 0;
+}
+
+.stat-card {
+  -fx-background-color: #ffffff;
+  -fx-background-radius: 12;
+  -fx-border-color: #dfe7e2;
+  -fx-border-radius: 12;
+  -fx-padding: 14 16;
+  -fx-effect: dropshadow(gaussian, rgba(20, 40, 30, 0.06), 10, 0, 0, 3);
+}
+
+.stat-card-green {
+  -fx-border-color: #bfe3cf;
+  -fx-background-color: #f3fbf6;
+}
+
+.stat-card-amber {
+  -fx-border-color: #f3ddb0;
+  -fx-background-color: #fffaf0;
+}
+
+.stat-label {
+  -fx-font-size: 10.5px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #6b7b74;
+}
+
+.stat-value {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.stat-hint {
+  -fx-font-size: 11px;
+  -fx-text-fill: #6b7b74;
+}

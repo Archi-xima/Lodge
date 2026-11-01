@@ -42,3 +42,7 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.release = 21
 }
+
+clean {
+    delete file(System.getProperty("user.home") + "/.lodge-billing")
+}

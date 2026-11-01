@@ -1,0 +1,43 @@
+/* ------------------------------- room cards ------------------------------- */
+.room-card {
+  -fx-background-color: #ffffff;
+  -fx-background-radius: 12;
+  -fx-border-color: #dfe7e2;
+  -fx-border-radius: 12;
+  -fx-padding: 10;
+  -fx-pref-width: 240;
+  -fx-cursor: hand;
+  -fx-effect: dropshadow(gaussian, rgba(20, 40, 30, 0.06), 10, 0, 0, 3);
+}
+
+.room-card:hover {
+  -fx-border-color: #a9c9b8;
+}
+
+.room-card-selected {
+  -fx-border-color: #157347;
+  -fx-border-width: 2;
+  -fx-background-color: #f5fbf7;
+}
+
+.room-card-title {
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.room-card-sub {
+  -fx-font-size: 11.5px;
+  -fx-text-fill: #6b7b74;
+}
+
+.room-card-rate {
+  -fx-font-size: 13px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #c2851a;
+}
+
+.room-card-features {
+  -fx-font-size: 11px;
+  -fx-text-fill: #6b7b74;
+}

@@ -1,0 +1,76 @@
+/* ------------------------------- auth screen ------------------------------ */
+.auth-root-pane {
+  -fx-background-color: #ffffff;
+}
+
+.auth-photo-pane {
+  -fx-background-color: #0c3f27;
+}
+
+.auth-photo-overlay {
+  -fx-background-color: linear-gradient(to top, rgba(6, 32, 20, 0.85), rgba(6, 32, 20, 0));
+  -fx-background-radius: 0;
+}
+
+.auth-photo-title {
+  -fx-font-size: 34px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #ffffff;
+}
+
+.auth-photo-sub {
+  -fx-font-size: 13px;
+  -fx-text-fill: #d5e8dd;
+}
+
+.auth-card-holder {
+  -fx-background-color: #ffffff;
+}
+
+.auth-card {
+  -fx-background-color: #ffffff;
+}
+
+.auth-emoji {
+  -fx-font-size: 34px;
+}
+
+.auth-title {
+  -fx-font-size: 22px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.auth-subtitle {
+  -fx-font-size: 12.5px;
+  -fx-text-fill: #6b7b74;
+}
+
+.auth-form-title {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #14201a;
+}
+
+.auth-link {
+  -fx-background-color: transparent;
+  -fx-text-fill: #157347;
+  -fx-font-weight: bold;
+  -fx-font-size: 12.5px;
+  -fx-underline: true;
+  -fx-padding: 0;
+}
+
+.transparent-scroll {
+  -fx-background-color: transparent;
+  -fx-background: transparent;
+}
+
+.transparent-scroll>.viewport {
+  -fx-background-color: transparent;
+}
+
+.transparent-scroll>.scroll-bar:vertical {
+  -fx-background-color: transparent;
+  -fx-pref-width: 8;
+}

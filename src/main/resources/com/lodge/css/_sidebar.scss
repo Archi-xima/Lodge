@@ -1,0 +1,59 @@
+@use 'colors';
+
+/* -------------------------------- sidebar --------------------------------- */
+.sidebar {
+  -fx-background-color: #ffffff;
+  -fx-border-color: transparent #dfe7e2 transparent transparent;
+  -fx-border-width: 0 1 0 0;
+  -fx-pref-width: 220;
+}
+
+.sidebar-heading {
+  -fx-font-size: 10.5px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #6b7b74;
+  -fx-padding: 6 0 4 8;
+}
+
+.nav-btn {
+  -fx-background-color: transparent;
+  -fx-text-fill: #33463d;
+  -fx-font-size: 13.5px;
+  -fx-alignment: CENTER_LEFT;
+  -fx-padding: 10 12;
+  -fx-background-radius: 8;
+  -fx-cursor: hand;
+}
+
+.nav-btn:hover {
+  -fx-background-color: #eef5f1;
+}
+
+.nav-btn-active {
+  -fx-background-color: linear-gradient(to right, #0f5132, #1a7a4d);
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+}
+
+.nav-btn-active:hover {
+  -fx-background-color: linear-gradient(to right, #0f5132, #1a7a4d);
+}
+
+.sidebar-card {
+  -fx-background-color: #f6f9f7;
+  -fx-background-radius: 10;
+  -fx-border-color: #dfe7e2;
+  -fx-border-radius: 10;
+  -fx-padding: 10 12;
+}
+
+.sidebar-card-title {
+  -fx-font-size: 12px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #0f5132;
+}
+
+.sidebar-card-text {
+  -fx-font-size: 11.5px;
+  -fx-text-fill: #6b7b74;
+}

@@ -1,0 +1,25 @@
+// src/main/scss/style.scss
+@use 'colors' as *;
+@use 'authentication';
+@use 'cards';
+@use 'charts';
+@use 'content';
+@use 'forms';
+@use 'header';
+@use 'photos';
+@use 'receipts';
+@use 'roomcards';
+@use 'scrollbars';
+@use 'sidebar';
+@use 'tables';
+@use 'totals';
+@use 'utils';
+/* ==========================================================================
+   SkyRidge Lodge Billing System â€” application theme
+   ========================================================================== */
+
+/* palette: greens #0f5132 / #157347, gold #c2851a, ink #14201a, mute #6b7b74, bg #f2f5f3, line #dfe7e2 */
+.app-root {
+  -fx-background-color: #f2f5f3;
+  -fx-font-family: "Segoe UI", "Inter", sans-serif;
+}

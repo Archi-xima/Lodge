@@ -1,0 +1,28 @@
+/* ------------------------------- scrollbars -------------------------------- */
+.scroll-pane {
+  -fx-background-color: transparent;
+  -fx-background: transparent;
+}
+
+.scroll-pane>.viewport {
+  -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+  -fx-background-color: transparent;
+  -fx-pref-width: 10;
+}
+
+.scroll-bar:vertical .thumb {
+  -fx-background-color: #c6d5cc;
+  -fx-background-radius: 5;
+}
+
+.scroll-bar:vertical .thumb:hover {
+  -fx-background-color: #a9c9b8;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+  -fx-opacity: 0;
+}

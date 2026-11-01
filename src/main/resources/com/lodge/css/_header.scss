@@ -1,0 +1,60 @@
+.top-header-bar {
+  -fx-background-color: linear-gradient(to right, #0c3f27, #12603c 55%, #17784a);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 8, 0, 0, 2);
+}
+
+.header-logo {
+  -fx-font-size: 26px;
+  -fx-text-fill: #ffd98a;
+}
+
+.app-title-logo {
+  -fx-font-size: 19px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #ffffff;
+}
+
+.app-subtitle-logo {
+  -fx-font-size: 11px;
+  -fx-text-fill: #bcd8c9;
+}
+
+.header-chip {
+  -fx-background-color: rgba(255, 255, 255, 0.16);
+  -fx-background-radius: 16;
+  -fx-text-fill: #eafff4;
+  -fx-font-size: 12px;
+  -fx-padding: 6 14;
+}
+
+
+.header-menu {
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+}
+
+.header-menu>.container>.menu-button {
+  -fx-background-color: transparent;
+  -fx-text-fill: #e6f4ec;
+}
+
+.header-menu>.container>.menu-button>.label {
+  -fx-text-fill: #e6f4ec;
+}
+
+.user-chip {
+  -fx-background-color: rgba(255, 255, 255, 0.14);
+  -fx-background-radius: 20;
+  -fx-padding: 6 16 6 8;
+}
+
+.user-chip-name {
+  -fx-text-fill: #ffffff;
+  -fx-font-weight: bold;
+  -fx-font-size: 13px;
+}
+
+.user-chip-role {
+  -fx-text-fill: #ffd98a;
+  -fx-font-size: 11px;
+}
