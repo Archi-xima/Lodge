@@ -391,6 +391,16 @@ public class BillingController implements ViewController {
         walkInGuestField.requestFocus();
     }
 
+    /** Opens the room selection screen and puts the chosen room into the walk-in form. */
+    @FXML
+    private void handleBrowseRooms() {
+        RoomSelectionController.pick(billsTable.getScene().getWindow()).ifPresent(room -> {
+            walkInRoomCombo.getItems().setAll(RoomService.getInstance().getRooms());
+            walkInRoomCombo.setValue(room);
+            setStatus("Room " + room.getRoomNumber() + " (" + room.getTypeName() + ") selected for the invoice.", true);
+        });
+    }
+
     private void openReceipt(Bill bill) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/lodge/view/receipt_dialog.fxml"));
