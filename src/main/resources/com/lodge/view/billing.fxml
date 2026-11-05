@@ -42,6 +42,7 @@
 
                 <Label text="Room occupied" styleClass="form-field-label"/>
                 <ComboBox fx:id="walkInRoomCombo" maxWidth="Infinity" styleClass="modern-combo-box"/>
+                <Button text="Browse rooms by type" onAction="#handleBrowseRooms" maxWidth="Infinity" styleClass="btn-secondary"/>
 
                 <Label text="Extras in K" styleClass="form-field-label"/>
                 <TextField fx:id="walkInExtrasField" promptText="e.g. 200 (no discount on extras)" styleClass="modern-text-field"/>

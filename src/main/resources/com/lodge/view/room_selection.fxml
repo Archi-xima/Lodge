@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.lodge.controller.RoomSelectionController"
+      spacing="14" styleClass="module-root" prefWidth="860" prefHeight="680">
+    <stylesheets>
+        <URL value="@../css/room_selection.css"/>
+    </stylesheets>
+    <padding>
+        <Insets top="18" right="20" bottom="18" left="20"/>
+    </padding>
+
+    <VBox spacing="2">
+        <Label text="Select a room type" styleClass="section-headline"/>
+        <Label fx:id="subtitleLabel" text="Choose the room type for this bill."
+               styleClass="section-subheadline"/>
+    </VBox>
+
+    <!-- one card per room tier is added by the controller -->
+    <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="card-panel-scroll">
+        <FlowPane fx:id="tierFlow" hgap="14" vgap="14">
+            <padding>
+                <Insets top="4" right="4" bottom="4" left="4"/>
+            </padding>
+        </FlowPane>
+    </ScrollPane>
+
+    <VBox styleClass="card-panel" spacing="4">
+        <Label fx:id="selectedTitleLabel" text="No room type selected" styleClass="table-section-title"/>
+        <Label fx:id="selectedDetailLabel" text="Click a room type above to choose it." styleClass="muted-text"/>
+        <Label fx:id="messageLabel" text="" styleClass="error-text" wrapText="true"/>
+    </VBox>
+
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <Button text="Cancel" onAction="#handleCancel" styleClass="btn-secondary"/>
+        <Button fx:id="confirmBtn" text="Use this room type" onAction="#handleConfirm"
+                styleClass="btn-primary" disable="true"/>
+    </HBox>
+</VBox>

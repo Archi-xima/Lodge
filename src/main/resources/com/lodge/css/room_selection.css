@@ -1,0 +1,65 @@
+/* ==========================================================================
+   Room selection screen (Member 8). Loaded only by room_selection.fxml, so it
+   cannot clash with style.css, colors.css, typography.css or components.css.
+   Colours follow the team palette:
+   primary #2563EB, secondary #10B981, accent #F59E0B, danger #EF4444,
+   surface #FFFFFF, text #0F172A, muted text #64748B, border #E2E8F0.
+   ========================================================================== */
+
+.tier-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}
+/* hover and keyboard focus are a lighter blue so they never look like a selection */
+.tier-card:hover   { -fx-border-color: #93C5FD; }
+.tier-card:focused { -fx-border-color: #93C5FD; -fx-border-width: 2; }
+
+.tier-card-selected,
+.tier-card-selected:hover,
+.tier-card-selected:focused {
+    -fx-border-color: #2563EB;
+    -fx-border-width: 2;
+    -fx-background-color: #EFF6FF;
+}
+
+.tier-card-disabled {
+    -fx-background-color: #F1F5F9;
+    -fx-cursor: default;
+}
+.tier-card-disabled:hover { -fx-border-color: #E2E8F0; }
+
+.tier-photo-frame {
+    -fx-background-color: #E2E8F0;
+    -fx-background-radius: 8;
+}
+.tier-photo-icon { -fx-font-size: 40px; -fx-text-fill: #64748B; }
+
+/* availability badges */
+.tier-badge {
+    -fx-padding: 3 10 3 10;
+    -fx-background-radius: 12;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+}
+.tier-badge-available { -fx-background-color: #D1FAE5; -fx-text-fill: #047857; }
+.tier-badge-limited   { -fx-background-color: #FEF3C7; -fx-text-fill: #92400E; }
+.tier-badge-full      { -fx-background-color: #FEE2E2; -fx-text-fill: #B91C1C; }
+
+.tier-full-note { -fx-text-fill: #B91C1C; -fx-font-size: 11.5px; }
+
+/* occupancy bar */
+.tier-occupancy-bar { -fx-pref-height: 8; }
+.tier-occupancy-bar > .track {
+    -fx-background-color: #E2E8F0;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+}
+.tier-occupancy-bar > .bar {
+    -fx-background-color: #2563EB;
+    -fx-background-radius: 4;
+    -fx-background-insets: 0;
+    -fx-padding: 4;
+}
